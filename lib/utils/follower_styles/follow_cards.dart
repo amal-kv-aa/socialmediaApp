@@ -12,15 +12,14 @@ class FollowerCards extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Container(
-          height:  size.height * 0.13,
-          width:
-          //context.watch<Responsive>().device == 'mobile' ?
-            size.width * 0.3 ,
-          //size.height*0.25,
+          height: size.height * 0.13,
+          width: context.watch<Responsive>().device == 'mobile'
+              ? size.width * 0.3
+              : size.height * 0.25,
           decoration: BoxDecoration(
-            color: Colors.cyan,
+            color: Colors.teal,
             borderRadius: BorderRadius.circular(30),
-            border: Border.all(width: 2, color: Colors.white),
+            border: Border.all(width: 2, color: Colors.black),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -29,12 +28,13 @@ class FollowerCards extends StatelessWidget {
         ),
         Container(
           height: size.height * 0.1,
-         // width: context.watch<Responsive>().device == 'mobile' ? size.width * 0.25 : size.height*0.18,
-          width: size.width*0.25,
+          width: context.watch<Responsive>().device == 'mobile'
+              ? size.width * 0.25
+              : size.height * 0.18,
           decoration: BoxDecoration(
-            color: Colors.cyan,
+            color: Colors.teal,
             borderRadius: BorderRadius.circular(30),
-            border: Border.all(width: 2, color: Colors.white),
+            border: Border.all(width: 2, color: Colors.black),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -43,12 +43,13 @@ class FollowerCards extends StatelessWidget {
         ),
         Container(
           height: size.height * 0.13,
-          //width: context.watch<Responsive>().device == 'mobile' ?  size.width * 0.3 : size.height*0.25,
-          width: size.width*0.3,
+          width: context.watch<Responsive>().device == 'mobile'
+              ? size.width * 0.3
+              : size.height * 0.25,
           decoration: BoxDecoration(
-            color: Colors.cyan,
+            color: Colors.teal,
             borderRadius: BorderRadius.circular(30),
-            border: Border.all(width: 2, color: Colors.white),
+            border: Border.all(width: 2, color: Colors.black),
           ),
           child: Center(
             child: Wrap(

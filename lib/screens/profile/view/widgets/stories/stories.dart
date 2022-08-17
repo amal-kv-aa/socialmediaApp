@@ -24,12 +24,27 @@ class Stories extends StatelessWidget {
                  value.device == 'mobile' ? 80 :
                  100,
                 decoration: BoxDecoration(
-                    border: Border.all(width: 2, color: color),
+                    border: Border.all(width: 1, color: color),
                     borderRadius: BorderRadius.circular(40),
                     image: const DecorationImage(
                         image: NetworkImage(
                             'http://1.bp.blogspot.com/-NP0zmaopjRE/UhhnlfaNsrI/AAAAAAAAEuE/Z5HQX6Jhqik/s1600/a+(9).jpg'),
-                        fit: BoxFit.cover)),
+                        fit: BoxFit.cover),
+                        boxShadow:const [
+                          BoxShadow(
+                          color:Colors.black,
+                          offset: Offset(1,6),
+                          blurRadius: 3
+                        ),
+                              BoxShadow(
+                              color:Colors.black,
+                              offset: Offset(0,2),
+                              blurRadius: 4),BoxShadow(
+                              color:Colors.yellow,
+                              offset: Offset(0,2),
+                              blurRadius:4)
+                        ]
+                        ),
               ),
           ),
         );

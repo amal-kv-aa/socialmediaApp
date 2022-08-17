@@ -24,10 +24,9 @@ class PostsGridView extends StatelessWidget {
             primary: false,
             itemBuilder: (context, index) {
               return Card(
-                clipBehavior: Clip.hardEdge,
                 elevation: 30,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(30)
                 ),
                 child: Container(
                     decoration: BoxDecoration(
@@ -37,7 +36,15 @@ class PostsGridView extends StatelessWidget {
                             fit: BoxFit.cover,
                             filterQuality: FilterQuality.high),
                         border: Border.all(width: 2, color: Colors.white),
-                        borderRadius: BorderRadius.circular(30))),
+                        borderRadius: BorderRadius.circular(30),
+                        boxShadow: 
+                       const [
+                          BoxShadow(color: Colors.black,
+                          offset: Offset(2,10),
+                          blurRadius: 10
+                          )
+                        ]
+                        )),
               );
             }),
       ),

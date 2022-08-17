@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social_media/screens/home/view/widgets/Posts/posts_home.dart';
 import 'package:social_media/screens/profile/view/widgets/stories/stories.dart';
 
 class Home extends StatelessWidget {
@@ -7,23 +8,31 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return
-    Scaffold(
-     appBar: AppBar(toolbarHeight: size.height*0.1,
-     automaticallyImplyLeading: false,),
-     body: Container(
-      height: double.infinity,
-      width: double.infinity,
-      child: Column(
-        children: [
-          SizedBox(
-            height: size.height*0.11,
-            width: size.height*1,
-            child:const Stories(color: Colors.black,),
-          )
-        ],
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
       ),
-     ),
-   );
+      body: SizedBox(
+        height: double.infinity,
+        width: double.infinity,
+        child: ListView(
+          children: [
+           
+            SizedBox(
+              height: size.height * 0.11,
+              width: size.width * 1,
+              child: const Stories(
+                color: Colors.cyan,
+              ),
+            ),
+              const HomePosts(),
+              const HomePosts(),
+              const HomePosts()
+          
+          ]
+        ),
+      ),
+    );
   }
 }

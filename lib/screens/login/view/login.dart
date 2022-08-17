@@ -3,7 +3,6 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:social_media/screens/lobi/view/lobi.dart';
 import 'package:social_media/screens/login/proivder/login_provider.dart';
-import 'package:social_media/screens/profile/view/profile.dart';
 import 'package:social_media/utils/enum/colors/colors.dart';
 import 'package:social_media/utils/responsive/responsive.dart';
 
@@ -65,8 +64,7 @@ class Login extends StatelessWidget {
                     onPressed: () {
                       context.read<Responsive>().checkdevice(size);
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (ctx) => LobiScreen()));
-                        
+                          MaterialPageRoute(builder: (ctx) =>const LobiScreen()));
                     },
                     child: const Text('Login'))
               ],

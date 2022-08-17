@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:social_media/screens/lobi/view/lobi.dart';
 import 'package:social_media/screens/profile/view/widgets/posts/posts.dart';
 import 'package:social_media/screens/profile/view/widgets/profile_bg_style/profile_outer.dart';
 import 'package:social_media/screens/profile/view/widgets/stories/stories.dart';
@@ -58,7 +57,7 @@ class Profile extends StatelessWidget {
                               flex: 4,
                               child: Container(
                                 width: double.infinity,
-                                color: Colors.white,
+                                color: Colors.teal,
                               ),
                             ),
                             Expanded(
@@ -81,7 +80,7 @@ class Profile extends StatelessWidget {
                             top: value.device == 'mobile'
                                 ? size.height * 0.17
                                 : size.height * 0.1,
-                            child: ProfileOuter(
+                            child:const ProfileOuter(
                               image:
                                   'https://i.pinimg.com/736x/00/ec/6b/00ec6b1a19a8dd9dee3949d4f7b09c1b.jpg',
                             ),
@@ -101,7 +100,7 @@ class Profile extends StatelessWidget {
                                 color: Colors.transparent,
                                 height: value == 'mobile' ? size.height* 0.1 : size.height * 0.1,
                                 width: size.width * 1,
-                                child: const Center(child: Stories(color: Colors.white,)))),
+                                child: const Center(child: Stories(color: Colors.black,)))),
                       ],
                     ),
                   ),

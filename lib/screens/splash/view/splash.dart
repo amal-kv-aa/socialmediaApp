@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:social_media/screens/splash/provider/splash_provider.dart';
-import 'package:social_media/utils/responsive/responsive.dart';
 
 class Splash extends StatelessWidget {
   const Splash({Key? key}) : super(key: key);
