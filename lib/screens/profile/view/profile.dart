@@ -1,148 +1,169 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_media/screens/profile/view/widgets/posts/posts.dart';
 import 'package:social_media/screens/profile/view/widgets/profile_bg_style/profile_outer.dart';
 import 'package:social_media/screens/profile/view/widgets/stories/stories.dart';
-import 'package:social_media/utils/enum/colors/colors.dart';
 import 'package:social_media/utils/follower_styles/follow_cards.dart';
-import 'package:social_media/utils/responsive/responsive.dart';
+import 'package:social_media/utils/responsive/responsive_design/responsivestyle.dart';
+import 'package:social_media/utils/text_custom/text.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({Key? key}) : super(key: key);
-
+  const Profile({Key? key, this.color}) : super(key: key);
+  final Color? color;
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-     final value = Provider.of<Responsive>(context).device;
+    final mob = ResponsiveStyle.isMobile(context);
     return Scaffold(
-      backgroundColor: EnumCOlors.color,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            actions: [
-              PopupMenuButton(
-                  itemBuilder: (context) => [
-                        const PopupMenuItem(
-                          value: 1,
-                          child: Text("Account settings"),
-                        ),
-                         PopupMenuItem(
-                          value: 2,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: const[
-                              Text("Logout"),
-                              Icon(Icons.logout_rounded,size: 20,)
-                            ],
-                          ),
-                        )
-                      ]),
-            ],
-            excludeHeaderSemantics: true,
-            backgroundColor: Colors.transparent,
-            collapsedHeight: value == 'mobile' ? size.height * 0.53 : size.height * 0.62,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Column(
-                children: [
-                  Container(
-                    height: value == 'mobile' ?  size.height * 0.56 : size.height * 0.62,
-                    width: size.width * 1,
-                    color: Colors.transparent,
-                    child: Stack(
-                      alignment: Alignment.topCenter,
-                      children: [
-                        Column(
-                          children: [
-                            Expanded(
-                              flex: 4,
-                              child: Container(
-                                width: double.infinity,
-                                color: Colors.teal,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: Container(
-                                width: double.infinity,
-                                color: Colors.transparent,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Positioned(
-                            right: 3,
-                            top: size.height * 0.2,
-                            child: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.edit))),
-                        Consumer<Responsive>(
-                          builder: (context, value, child) => Positioned(
-                            top: value.device == 'mobile'
-                                ? size.height * 0.17
-                                : size.height * 0.1,
-                            child:const ProfileOuter(
-                              image:
-                                  'https://i.pinimg.com/736x/00/ec/6b/00ec6b1a19a8dd9dee3949d4f7b09c1b.jpg',
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: value == 'mobile' ? size.height *0.31: size.height * 0.36,
-                          child: Container(
-                              width: size.width * 1,
-                              height: size.height * 0.15,
-                              color: Colors.transparent,
-                              child: const FollowerCards()),
-                        ),
-                        Positioned(
-                            top:value == 'mobile' ? size.height * 0.46 : size.height * 0.52,
-                            child: Container(
-                                color: Colors.transparent,
-                                height: value == 'mobile' ? size.height* 0.1 : size.height * 0.1,
-                                width: size.width * 1,
-                                child: const Center(child: Stories(color: Colors.black,)))),
-                      ],
+      backgroundColor: Colors.white,
+      body: DefaultTabController(
+        length: 2,
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              actions: [
+                PopupMenuButton(
+                    icon: Icon(
+                      Icons.more_vert,
+                      color: Colors.black,
+                      size: 26.h,
                     ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          context.watch<Responsive>().device == 'mobile'
-              ? SliverAppBar(
-                  pinned: true,
-                  toolbarHeight: size.height * 0.04,
-                  automaticallyImplyLeading: false,
-                  backgroundColor: Colors.white12,
-                  elevation: 4,
-                  title: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: const [
-                          Icon(
-                            Icons.grid_view_rounded,
-                            color: Colors.black,
+                    itemBuilder: (context) => [
+                          const PopupMenuItem(
+                            value: 1,
+                            child: Text("Account settings"),
+                          ),      
+                          PopupMenuItem(
+                            value: 2,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: const [
+                                Text("Logout"),
+                                Icon(Icons.logout_rounded, color: Colors.black)
+                              ],
+                            ),
+                          )
+                        ]),
+              ],
+              excludeHeaderSemantics: true,
+              backgroundColor: Colors.transparent,
+              collapsedHeight:mob ? 380.h :450.h,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Column(
+                  children: [
+                    SizedBox(
+                      height: 70.h,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal:mob ? 10.w : 15),
+                      child: Row(
+                        children: [
+                          const ProfileOuter(
+                            image:
+                                'https://images.unsplash.com/photo-1497316730643-415fac54a2af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
                           ),
-                          Icon(
-                            Icons.photo,
-                            color: Colors.black,
+                          SizedBox(width:mob ? 10.w : 20.w),
+                          SizedBox(
+                            height: 70.h,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const CustomText(
+                                  text: 'Ronin',
+                                  weight: FontWeight.bold,
+                                  size: 20,
+                                ),
+                                Container(
+                                  height: 30.h,
+                                  width:mob ? 220.w :60.w,
+                                  color:
+                                      const Color.fromARGB(255, 168, 168, 168),
+                                  child: const Center(
+                                      child: CustomText(
+                                    text: 'Edit Profile',
+                                    size: 14,
+                                    weight: FontWeight.bold,
+                                  )),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
-                      )
-                    ],
-                  ),
-                  titleSpacing: 0,
-                )
-              : const SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 50,
-                  ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    SizedBox(
+                        width: double.infinity,
+                        child: Container(
+                            width: double.infinity,
+                            height: 90.h,
+                            color: Colors.transparent,
+                            child: const FollowerCards())),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                   const CustomText(text: 'Stroy Hilghlights'),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    SizedBox(
+                      height: 80.h,
+                      child: const Stories(color: Colors.white),
+                    ),
+                    SizedBox(
+                      height: mob ? 0.h : 20.h,
+                    )
+                  ],
                 ),
-          const SliverToBoxAdapter(
-            child: PostsGridView(),
-          )
-        ],
+              ),
+            ),
+            SliverAppBar(
+              pinned: true,
+              toolbarHeight:mob ? 25.h : 30.h,
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.white,
+              elevation: 4,
+              title: Column(
+                children: [
+                  TabBar(
+                      indicatorColor: const Color.fromARGB(255, 73, 73, 73),
+                      indicatorWeight:mob ? 5 :10,
+                      padding: EdgeInsets.symmetric(horizontal: 30.w ),
+                      labelColor: Colors.black,
+                      tabs: const [
+                        Icon(
+                          Icons.photo,
+                          color: Colors.black
+                        ),
+                        Icon(
+                          Icons.grid_view_rounded,
+                          color: Colors.black
+                        ),
+                      ]),
+                ],
+              ),
+              titleSpacing: 0,
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: const TabBarView(
+                  
+                  children: [
+                    PostsGridView(
+                      image:
+                          'https://tse3.mm.bing.net/th?id=OIP.gOZoSB7g6U1GN8SK5J4chgHaGv&pid=Api&P=0',
+                    ),
+                    PostsGridView(
+                      image: '',
+                    )
+                  ]),
+            ))
+          ],
+        ),
       ),
     );
   }

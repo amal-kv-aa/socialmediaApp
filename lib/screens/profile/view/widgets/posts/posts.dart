@@ -1,53 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:social_media/utils/responsive/responsive.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:social_media/screens/full_view/view/fullview.dart';
+import 'package:social_media/utils/responsive/responsive_design/responsivestyle.dart';
 
 class PostsGridView extends StatelessWidget {
-  const PostsGridView({Key? key}) : super(key: key);
-
+  const PostsGridView({Key? key,required this.image}) : super(key: key);
+  final String image;
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Consumer<Responsive>(
-      builder: (context, value, child) => Padding(
-        padding: EdgeInsets.only(left: size.width * 0.08, right: size.width * 0.08),
-        child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                mainAxisSpacing: 20,
-                crossAxisSpacing: 20,
-                maxCrossAxisExtent:
-                    value.device == 'desktop' ? 350 : 150,
-                mainAxisExtent:
-                    value.device == 'desktop' ? 350 : 150),
-            itemCount: 25,
-            shrinkWrap: true,
-            primary: false,
-            itemBuilder: (context, index) {
-              return Card(
+   final mob = ResponsiveStyle.isMobile(context);
+    return Padding(
+      padding:
+          EdgeInsets.only(left:0.w, right: 0.w),
+      child: GridView.builder(
+          // physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            childAspectRatio: 3.0,
+              maxCrossAxisExtent:mob ? 150.w :50.w,
+              mainAxisExtent:mob ? 150.w :150.h),
+          itemCount: 35,
+          // shrinkWrap: true,
+          primary: false,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (ctx) =>  FullView(image: image,)));
+              },
+              child: Card(
                 elevation: 30,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30)
-                ),
+                    borderRadius: BorderRadius.circular(30)),
                 child: Container(
                     decoration: BoxDecoration(
-                        image: const DecorationImage(
+                        image:  DecorationImage(
                             image: NetworkImage(
-                                'https://tse3.mm.bing.net/th?id=OIP.mXVvOZA8R9jaqgWjJuQ7tQHaHa&pid=Api&P=0'),
+                                image),
                             fit: BoxFit.cover,
                             filterQuality: FilterQuality.high),
-                        border: Border.all(width: 2, color: Colors.white),
-                        borderRadius: BorderRadius.circular(30),
-                        boxShadow: 
-                       const [
-                          BoxShadow(color: Colors.black,
-                          offset: Offset(2,10),
-                          blurRadius: 10
-                          )
-                        ]
-                        )),
-              );
-            }),
-      ),
+                       )),
+              ),
+            );
+          }),
     );
   }
 }
