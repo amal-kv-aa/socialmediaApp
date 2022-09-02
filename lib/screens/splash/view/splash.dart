@@ -9,7 +9,8 @@ class Splash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<SplashProvider>().gotoHome(context);
+    context.read<SplashProvider>().
+    gotoHome(context);
     return  Scaffold(
       body: Center(
         child: CustomText(

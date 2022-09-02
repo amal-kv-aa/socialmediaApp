@@ -17,11 +17,14 @@ class SignUpScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
       ),
       body: SizedBox(
-        height: double.infinity,
-        width: double.infinity,
-        child: Consumer<SignUpProvider>(
-          builder: (context, provider, child) => Form(
-            key: provider.formkey,
+        height:double.infinity,
+        width:double.infinity,
+        child:
+         Consumer<SignUpProvider>(
+         builder: (context, provider, child) {
+           return
+            Form(
+            key: context.watch<SignUpProvider>().formkey,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: ListView(
@@ -36,26 +39,35 @@ class SignUpScreen extends StatelessWidget {
                     height: 20.h,
                   ),
                   ModelTextfield(
-                      hint: 'name', controller: provider.namecontroller),
+                      hint: 'name', controller: provider.usercontroller,
+                     // validator: (value)=>provider.username(value!),
+                      ),
                   ModelTextfield(
-                      hint: 'fullname', controller: provider.namecontroller),
+                      hint: 'fullname', controller: provider.fullnamecontroller,
+                     // validator: (value)=>provider.username(value!),
+                      ),
                   ModelTextfield(
                     hint: 'phonenumber',
-                    controller: provider.emailcontroller,
-                    validator: (value) => provider.name(value!),
+                    controller: provider.phonenumbercontroller,
+                   // validator: (value) => 
+                   // provider.phoneValidate(value!),
                   ),
                   ModelTextfield(
                     hint: 'email',
                     controller: provider.emailcontroller,
-                    validator: (value) => provider.name(value!),
+                    validator: (value) => provider.emailValidate(value!),
                   ),
                   ModelTextfield(
                     hint: 'password',
                     controller: provider.passwordcontroller,
+                   validator:(value) => provider.passwordValidate(value) ,
                   ),
                   ModelTextfield(
                     hint: 'confirm password',
                     controller: provider.confirmcontroller,
+                    validator: (value)=>
+                    provider.confirmValidate(value)
+
                   ),
                   ElevatedButton(
                       onPressed: () {
@@ -65,7 +77,7 @@ class SignUpScreen extends StatelessWidget {
                   SizedBox(
                     height: 20.h,
                   ),
-                  const GoogleSignUp(),
+                  const GoogleSignUpPage(),
                   Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 50.w, vertical: 10.h),
@@ -97,7 +109,9 @@ class SignUpScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ),
+          );
+         },
+          
         ),
       ),
     );

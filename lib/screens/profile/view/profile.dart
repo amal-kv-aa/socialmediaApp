@@ -32,9 +32,11 @@ class Profile extends StatelessWidget {
                           const PopupMenuItem(
                             value: 1,
                             child: Text("Account settings"),
-                          ),      
+                          ),
                           PopupMenuItem(
                             value: 2,
+                            onTap: () {
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: const [
@@ -47,7 +49,7 @@ class Profile extends StatelessWidget {
               ],
               excludeHeaderSemantics: true,
               backgroundColor: Colors.transparent,
-              collapsedHeight:mob ? 380.h :450.h,
+              collapsedHeight: mob ? 380.h : 450.h,
               flexibleSpace: FlexibleSpaceBar(
                 background: Column(
                   children: [
@@ -55,14 +57,15 @@ class Profile extends StatelessWidget {
                       height: 70.h,
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal:mob ? 10.w : 15),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: mob ? 10.w : 15),
                       child: Row(
                         children: [
                           const ProfileOuter(
                             image:
                                 'https://images.unsplash.com/photo-1497316730643-415fac54a2af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
                           ),
-                          SizedBox(width:mob ? 10.w : 20.w),
+                          SizedBox(width: mob ? 10.w : 20.w),
                           SizedBox(
                             height: 70.h,
                             child: Column(
@@ -76,7 +79,7 @@ class Profile extends StatelessWidget {
                                 ),
                                 Container(
                                   height: 30.h,
-                                  width:mob ? 220.w :60.w,
+                                  width: mob ? 220.w : 60.w,
                                   color:
                                       const Color.fromARGB(255, 168, 168, 168),
                                   child: const Center(
@@ -105,7 +108,7 @@ class Profile extends StatelessWidget {
                     SizedBox(
                       height: 10.h,
                     ),
-                   const CustomText(text: 'Stroy Hilghlights'),
+                    const CustomText(text: 'Stroy Hilghlights'),
                     SizedBox(
                       height: 10.h,
                     ),
@@ -122,7 +125,7 @@ class Profile extends StatelessWidget {
             ),
             SliverAppBar(
               pinned: true,
-              toolbarHeight:mob ? 25.h : 30.h,
+              toolbarHeight: mob ? 25.h : 30.h,
               automaticallyImplyLeading: false,
               backgroundColor: Colors.white,
               elevation: 4,
@@ -130,37 +133,29 @@ class Profile extends StatelessWidget {
                 children: [
                   TabBar(
                       indicatorColor: const Color.fromARGB(255, 73, 73, 73),
-                      indicatorWeight:mob ? 5 :10,
-                      padding: EdgeInsets.symmetric(horizontal: 30.w ),
+                      indicatorWeight: mob ? 5 : 10,
+                      padding: EdgeInsets.symmetric(horizontal: 30.w),
                       labelColor: Colors.black,
                       tabs: const [
-                        Icon(
-                          Icons.photo,
-                          color: Colors.black
-                        ),
-                        Icon(
-                          Icons.grid_view_rounded,
-                          color: Colors.black
-                        ),
+                        Icon(Icons.photo, color: Colors.black),
+                        Icon(Icons.grid_view_rounded, color: Colors.black),
                       ]),
                 ],
               ),
               titleSpacing: 0,
             ),
             SliverToBoxAdapter(
-              child: SizedBox(
+                child: SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: const TabBarView(
-                  
-                  children: [
-                    PostsGridView(
-                      image:
-                          'https://tse3.mm.bing.net/th?id=OIP.gOZoSB7g6U1GN8SK5J4chgHaGv&pid=Api&P=0',
-                    ),
-                    PostsGridView(
-                      image: '',
-                    )
-                  ]),
+              child: const TabBarView(children: [
+                PostsGridView(
+                  image:
+                      'https://tse3.mm.bing.net/th?id=OIP.gOZoSB7g6U1GN8SK5J4chgHaGv&pid=Api&P=0',
+                ),
+                PostsGridView(
+                  image: '',
+                )
+              ]),
             ))
           ],
         ),

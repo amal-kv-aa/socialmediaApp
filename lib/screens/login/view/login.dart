@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:social_media/screens/desktop/provider/provider.dart';
-import 'package:social_media/screens/desktop/view/desktop.dart';
 import 'package:social_media/screens/lobi/view/lobi.dart';
 import 'package:social_media/screens/login/provider/login_provider.dart';
-import 'package:social_media/screens/main_home/main_home.dart';
 import 'package:social_media/screens/sign_up/view/sign_up.dart';
 import 'package:social_media/screens/sign_up/view/widgets/google_signup/google_signup.dart';
 import 'package:social_media/screens/sign_up/view/widgets/textfield/textfield.dart';
@@ -25,6 +23,7 @@ class Login extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Form(
+              key: context.watch<LoginProvider>().formkey,
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -60,18 +59,18 @@ class Login extends StatelessWidget {
                   height: 30.h,
                   child: ElevatedButton(
                     onPressed: () {
-
-                      ResponsiveStyle.isMobile(context)
-                          ? Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (ctx) => MainHome()))
-                          : context.read<DesktopProvider>().updateSize(false);
-                      context
-                          .read<DesktopProvider>()
-                          .updateWidgetFirst(const AccountDesktop());
-                      context
-                          .read<DesktopProvider>()
-                          .updateWidgetSeconde(MainHome());
-                      context.read<DesktopProvider>().searchshowUpdate(true);
+                      context.read<LoginProvider>().tologin(context);
+                      // ResponsiveStyle.isMobile(context)
+                      //     ? Navigator.of(context).pushReplacement(
+                      //         MaterialPageRoute(builder: (ctx) => MainHome()))
+                      //     : context.read<DesktopProvider>().updateSize(false);
+                      // context
+                      //     .read<DesktopProvider>()
+                      //     .updateWidgetFirst(const AccountDesktop());
+                      // context
+                      //     .read<DesktopProvider>()
+                      //     .updateWidgetSeconde(MainHome());
+                      // context.read<DesktopProvider>().searchshowUpdate(true);
                     },
                     style: ElevatedButton.styleFrom(primary: Colors.teal),
                     child: const Text(
@@ -85,7 +84,7 @@ class Login extends StatelessWidget {
               height: 30.h,
             ),
       //=====custom===widget=======//
-            const GoogleSignUp(),
+            const GoogleSignUpPage(),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 50.w, vertical: 10.h),
               child: const Divider(

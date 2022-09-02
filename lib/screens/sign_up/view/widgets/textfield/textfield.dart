@@ -16,7 +16,7 @@ class ModelTextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.symmetric(vertical: 10.h),
+      padding:  EdgeInsets.symmetric(vertical: 4.h),
       child: Center(
         child: Consumer<SignUpProvider>(
           builder: (context, signupprovider, child){

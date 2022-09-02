@@ -4,14 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
-import 'package:social_media/screens/lobi/view/lobi.dart';
 import 'package:social_media/screens/main_home/main_home.dart';
 import 'package:social_media/screens/otp/provider/otp_provider.dart';
+import 'package:social_media/screens/sign_up/model/auth.models.dart';
 import 'package:social_media/utils/text_custom/text.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({Key? key}) : super(key: key);
-
+  const OtpScreen({Key? key ,required this. user}) : super(key: key);
+ final User? user;
   @override
   State<OtpScreen> createState() => _OtpScreenState();
 }
@@ -33,7 +33,7 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
       if (status == AnimationStatus.completed) {
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (ctx) => MainHome()));
-        context.read<OtpProvider>().animcontroller.reset();
+        // context.read<OtpProvider>().animcontroller.reset();
       }
     });
   }
@@ -49,8 +49,8 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
             children: [
               Consumer<OtpProvider>(
                 builder: (context, value, child) {
-                  return Lottie.network(
-                      'https://assets4.lottiefiles.com/packages/lf20_zl2c0cuv.json',
+                  return Lottie.asset(
+                      'assets/animation/105173-verification-code-otp.json',
                       controller: value.bganimcontroller,
                       onLoaded: (compossition) {
                     value.bganimcontroller.forward();
@@ -82,11 +82,7 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                   blinkWhenObscuring: true,
                   animationType: AnimationType.fade,
                   validator: (v) {
-                    // if (v!.length < 3) {
-                    //   return "I'm from validator";
-                    // } else {
                     return null;
-                    // }
                   },
                   pinTheme: PinTheme(
                       shape: PinCodeFieldShape.box,
@@ -103,9 +99,8 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                   cursorColor: Colors.black,
                   animationDuration: const Duration(milliseconds: 300),
                   enableActiveFill: true,
-                  // errorAnimationController: errorController,
-                  // controller: textEditingController,
                   keyboardType: TextInputType.number,
+                  controller: context.watch<OtpProvider>().otpController,
                   boxShadows: const [
                     BoxShadow(
                       offset: Offset(3, 1),
@@ -121,9 +116,7 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                     debugPrint(value);
                   },
                   beforeTextPaste: (text) {
-                    debugPrint("Allowing to paste $text");
-                    //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                    //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                    debugPrint('');
                     return true;
                   },
                 ),
@@ -133,7 +126,7 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                 children: [
                   RichText(
                     text: TextSpan(
-                        text: 'resend otp',
+                        text: 'resend OTP',
                         style: const TextStyle(
                             color: Colors.blue, fontWeight: FontWeight.bold),
                         recognizer: TapGestureRecognizer()..onTap = () {}),
@@ -148,7 +141,8 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
               ),
               ElevatedButton(
                   onPressed: () {
-                    context.read<OtpProvider>().showanimation(context);
+                    context.read<OtpProvider>().otpverify(context,widget.user!);
+                    context.read<OtpProvider>().showLoding(context: context);
                   },
                   child: const Text('submit'))
             ],

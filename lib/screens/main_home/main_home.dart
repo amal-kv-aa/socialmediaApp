@@ -23,7 +23,7 @@ class MainHome extends StatelessWidget {
     return Scaffold(
       body: _pages[context.watch<LobyProvider>().currentIndex],
       bottomNavigationBar:ResponsiveStyle.isMobile(context)?
-     const BottomNavItem() :const SizedBox()
+      const BottomNavItem() :const SizedBox(),
     );
   }
 }
