@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:social_media/screens/home/view/widgets/Posts/posts_home.dart';
 import 'package:social_media/screens/profile/view/widgets/stories/stories.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:social_media/utils/text_custom/Text.dart';
+import 'package:social_media/widgets/text_custom/text.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class Home extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         title: const CustomText(
-          text: "TreatLands",
+          text: "Tailus",
           fontfamily: 'cursive',
           size: 26,
           weight: FontWeight.bold,

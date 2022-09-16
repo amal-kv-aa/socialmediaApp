@@ -9,9 +9,11 @@ class DesktopProvider with ChangeNotifier{
   bool showSearch = false;
 updateWidgetFirst(Widget newScreen){
   firstScreen = newScreen;
+  notifyListeners();
 }
 updateWidgetSeconde(Widget newScreen){
   secondScreen = newScreen;
+  notifyListeners();
 }
 updateSize(bool value)
 {

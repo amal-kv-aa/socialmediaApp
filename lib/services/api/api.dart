@@ -1,77 +1,77 @@
-import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:social_media/screens/login/model/model_login.dart';
-import 'package:social_media/screens/otp/provider/otp_provider.dart';
 import 'package:social_media/services/api_endpoins/api_endoints.dart';
 import 'package:social_media/screens/sign_up/model/auth.models.dart';
-import 'package:social_media/utils/snackbar/snackbar.dart';
+import 'package:social_media/services/helper/helperfunction.dart';
 
 class ApiServices extends ApiEndPoints {
+
   //===================sign up request==============================//
-  signupRequest(User user, BuildContext context) async {
+  Future<String>? signupRequest(User user) async {
     try {
       final response =
-          await Dio().post("${baseUrl}signup", data: user.tojson());
-      if (response.statusCode == 201 || response.statusCode == 200) {
-        return response;
-      } else 
-      {
+          await Dio().post("${authbaseUrl}signup", data: user.tojson());
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return done;
+      } else {}
+    } on DioError catch (e) {
+      if (e.message.startsWith("SocketException")) {
+        return netError;
       }
-    } on DioError catch (dioError) {
-      networkError(dioError, context);
-      CustomSnackbar.showSnack(
-          context: context, text: dioError.response!.data["error"]);
+      return e.response!.data['error'];
     }
+    return otherError;
   }
 
 //=========================otp verify=============================//
-  otpVerify(
+  Future<String>? otpVerify(
       {required User otpModels,
-      required String otp,
-      required BuildContext context}) async {
+      required String otp}) async {
     try {
       Map data = otpModels.tojson();
       data["Otp"] = otp;
-      final response = await Dio().post("${baseUrl}verifyOtp", data: data);
+      final response = await Dio().post("${authbaseUrl}verifyOtp", data: data);
       if (response.statusCode == 201 || response.statusCode == 200) {
-        return response;
-      } else {
-        return;
+        String token  =  response.data['token'];
+        String userId =  response.data['id'];
+        HelperFunction().setAccesstocken(token);
+        HelperFunction().setuserId(userId);
+        return done;
       }
-    } on DioError catch (dioError) {
-      networkError(dioError, context);
-      CustomSnackbar.showSnack(
-          context: context, text: dioError.response!.data["error"]);
-
-      context.read<OtpProvider>().showError(context);
+    } on DioError catch (e) {
+      if (e.message.startsWith("SocketException")){
+        return netError;
+      }
+      return e.response!.data['error'];
     }
+    return otherError;
   }
 
-//=========================Login=========================//
-  login(LoginModel user, BuildContext context) async {
+//=========================Login===================//
+ Future <String>? login(LoginModel user) async {
     try {
       final response =
-          await Dio().post("${baseUrl}signin", data: user.tojson());
+          await Dio().post("${authbaseUrl}signin", data: user.tojson());
       if (response.statusCode! >= 200 && response.statusCode! <= 299) {
-        return response;
-      } else {
-        log(response.statusCode.toString());
+        String token =  response.data['token'];
+        String userId =  response.data['id'];
+        HelperFunction().setAccesstocken(token);
+        HelperFunction().setuserId(userId);
+        return done;
       }
-    } on DioError catch (dioError) {
-      networkError(dioError, context);
-      CustomSnackbar.showSnack(
-          context: context, text: dioError.response!.data["error"]);
+    } on DioError catch (e) {
+     if (e.message.startsWith("SocketException")) {
+        return netError;
+      }
+      return e.response!.data['error'];
     }
+    return otherError;
   }
-
- //========================checking internet error=================// 
-  networkError(DioError dioError,context){
-    if (dioError.error.toString() ==
-          'SocketException: Failed host lookup: \'tailus-api-gateway.herokuapp.com\' (OS Error: No address associated with hostname, errno = 7)') {
-        CustomSnackbar.showSnack(
-            context: context, text: 'Your internet not discoverable');
-      }
+}
+//=======================checking=internet=error=================//
+String networkError(DioError e) {
+  if (e.message.startsWith("SocketException")) {
+    return "no internet connection";
   }
+  return e.response!.data['error'];
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:social_media/utils/text_custom/text.dart';
+import 'package:social_media/widgets/text_custom/text.dart';
 
 class Message extends StatelessWidget {
   const Message({Key? key, required this.content}) : super(key: key);

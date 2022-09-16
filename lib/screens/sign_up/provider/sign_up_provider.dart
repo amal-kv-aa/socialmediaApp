@@ -1,9 +1,11 @@
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:social_media/screens/otp/view/otp.dart';
 import 'package:social_media/services/api/api.dart';
 import 'package:social_media/screens/sign_up/model/auth.models.dart';
-import 'package:social_media/utils/snackbar/snackbar.dart';
+import 'package:social_media/widgets/snackbar/snackbar.dart';
+
+import '../../../widgets/loading/loading.dart';
 
 class SignUpProvider with ChangeNotifier {
   final formkey = GlobalKey<FormState>();
@@ -14,12 +16,14 @@ class SignUpProvider with ChangeNotifier {
   final TextEditingController passwordcontroller = TextEditingController();
   final TextEditingController confirmcontroller = TextEditingController();
 
+  bool isLoading = false;
+
 //===============name validation===========//
   String? username(String value) {
     if (value.trim().isEmpty) {
       return 'name required';
     } else if (value.trim().length < 3) {
-      return 'Username must be at least 4 characters in length';
+      return 'Username must be at least 3 characters in length';
     }
     return null;
   }
@@ -37,7 +41,7 @@ class SignUpProvider with ChangeNotifier {
   //================phone number==============//
   String? phoneValidate(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'This field is required';
+      return 'phonenumber required';
     } else if (value.trim().length < 10) {
       return 'enter valid phonenumber';
     }
@@ -47,7 +51,7 @@ class SignUpProvider with ChangeNotifier {
 //================password==validate===============//
   String? passwordValidate(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'This field is required';
+      return 'password required';
     } else if (value.trim().length < 8) {
       return 'Password must be at least 8 characters in length';
     }
@@ -69,31 +73,38 @@ class SignUpProvider with ChangeNotifier {
     if (formkey.currentState!.validate() == false) {
       return;
     } else {
+      Loding.progressbar(context);
       signup(context);
       return;
     }
   }
 
   //==========================signup======================//
-
-  signup(BuildContext context) async {
+  Future<void> signup(context) async {
     final user = User(
         username: usercontroller.text.trim(),
         fullname: fullnamecontroller.text.trim(),
         email: emailcontroller.text.trim(),
         phoneNumber: phonenumbercontroller.text.trim(),
         password: passwordcontroller.text.trim(),
-        confirmpssword: confirmcontroller.text.trim());
+        confirmpassword: confirmcontroller.text.trim());
 
-    final response = await ApiServices().signupRequest(user, context);
-
-    if (response is Response) {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (ctx) => OtpScreen(
-                user: user,
-              )));
+     ApiServices().signupRequest(user)!.then((value) {
+  if (value == "success")
+    {
+      Navigator.pop(context);
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (ctx) => OtpScreen(user: user)));
       CustomSnackbar.showSnack(
           context: context, text: "OTP sended to your Phonenumber");
+    } else {
+      Navigator.pop(context);
+      CustomSnackbar.showSnack(context: context, text: value);
     }
+    });
   }
+  updateLoding(bool value) {
+    isLoading = value;
+    notifyListeners();
+  }          
 }

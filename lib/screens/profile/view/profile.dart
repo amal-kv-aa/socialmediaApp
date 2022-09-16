@@ -1,15 +1,36 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:social_media/screens/login/view/login.dart';
+import 'package:social_media/screens/profile/provider/profile_provider.dart';
 import 'package:social_media/screens/profile/view/widgets/posts/posts.dart';
 import 'package:social_media/screens/profile/view/widgets/profile_bg_style/profile_outer.dart';
 import 'package:social_media/screens/profile/view/widgets/stories/stories.dart';
-import 'package:social_media/utils/follower_styles/follow_cards.dart';
+import 'package:social_media/services/helper/helperfunction.dart';
 import 'package:social_media/utils/responsive/responsive_design/responsivestyle.dart';
-import 'package:social_media/utils/text_custom/text.dart';
+import 'package:social_media/widgets/follower_styles/follow_cards.dart';
+import 'package:social_media/widgets/text_custom/text.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({Key? key, this.color}) : super(key: key);
   final Color? color;
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
+  late TabController tabController;
+  @override
+  void initState() {
+    tabController = TabController(length: 2, vsync: this);
+    tabController.addListener(() {
+      log('called');
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final mob = ResponsiveStyle.isMobile(context);
@@ -36,6 +57,17 @@ class Profile extends StatelessWidget {
                           PopupMenuItem(
                             value: 2,
                             onTap: () {
+                              HelperFunction().deleteAccestoken().then((value) {
+                                 Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                     const Login(),
+                                ),
+                                (route) => true,
+                              );
+                              });
+                             
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -129,31 +161,32 @@ class Profile extends StatelessWidget {
               automaticallyImplyLeading: false,
               backgroundColor: Colors.white,
               elevation: 4,
-              title: Column(
-                children: [
-                  TabBar(
-                      indicatorColor: const Color.fromARGB(255, 73, 73, 73),
-                      indicatorWeight: mob ? 5 : 10,
-                      padding: EdgeInsets.symmetric(horizontal: 30.w),
-                      labelColor: Colors.black,
-                      tabs: const [
-                        Icon(Icons.photo, color: Colors.black),
-                        Icon(Icons.grid_view_rounded, color: Colors.black),
-                      ]),
-                ],
-              ),
-              titleSpacing: 0,
+              title: TabBar(
+                  controller: tabController,
+                  indicatorColor: const Color.fromARGB(255, 73, 73, 73),
+                  indicatorWeight: mob ? 5 : 10,
+                  padding: EdgeInsets.symmetric(horizontal: 30.w),
+                  labelColor: Colors.black,
+                  tabs: const [
+                    Icon(Icons.photo, color: Colors.black),
+                    Icon(Icons.grid_view_rounded, color: Colors.black),
+                  ]),
             ),
             SliverToBoxAdapter(
-                child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: const TabBarView(children: [
+                child: Container(
+              color: Colors.white,
+              height: context.watch<ProfileProvider>().tabbarheight ?? 0,
+              child: 
+               TabBarView(controller: tabController, children: const [
                 PostsGridView(
                   image:
                       'https://tse3.mm.bing.net/th?id=OIP.gOZoSB7g6U1GN8SK5J4chgHaGv&pid=Api&P=0',
+                  length: 30,
                 ),
                 PostsGridView(
-                  image: '',
+                  image:
+                      'https://tse3.mm.bing.net/th?id=OIP.gOZoSB7g6U1GN8SK5J4chgHaGv&pid=Api&P=0',
+                  length: 31,
                 )
               ]),
             ))

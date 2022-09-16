@@ -1,10 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 import 'package:social_media/screens/sign_up/model/auth.models.dart';
 import 'package:social_media/services/api/api.dart';
+import 'package:social_media/widgets/snackbar/snackbar.dart';
 
 class OtpProvider with ChangeNotifier {
   late AnimationController animcontroller;
@@ -13,10 +12,10 @@ class OtpProvider with ChangeNotifier {
   showanimation(BuildContext context) {
     showDialog(
         context: context,
-        builder: (context) {
+        builder: (context){
           return AlertDialog(
-            content: Lottie.network(
-              'https://assets10.lottiefiles.com/private_files/lf30_yo2zavgg.json',
+            content: Lottie.asset(
+              'assets/animation/91842-success.json',
               height: 150.h,
               controller: animcontroller,
               onLoaded: (composition) {
@@ -27,7 +26,6 @@ class OtpProvider with ChangeNotifier {
           );
         });
   }
-
   showLoding({required BuildContext context}) async {
     showDialog(
         barrierDismissible: false,
@@ -49,7 +47,6 @@ class OtpProvider with ChangeNotifier {
           );
         });
   }
-
   showError(BuildContext context) {
     showDialog(
         barrierDismissible: false,
@@ -74,13 +71,19 @@ class OtpProvider with ChangeNotifier {
           );
         });
   }
+  otpverify(BuildContext context, User user){ 
+      ApiServices().otpVerify(
+        otpModels: user, otp: otpController.text.trim())!.then((value) {
+            if (value == "success") {
+          showanimation(context);
+        } else {
+              CustomSnackbar.showSnack(
+          context: context, text: value);
+           showError(context);
+        }
+        });
+      
+        
 
-  otpverify(BuildContext context, User user) async {
-    final response = await ApiServices().otpVerify(
-        otpModels: user, otp: otpController.text.trim(), context: context);
-    if (response is Response) 
-    {
-     context.read<OtpProvider>().showanimation(context);
-    }
   }
 }

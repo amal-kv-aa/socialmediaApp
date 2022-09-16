@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_media/screens/chat/view/widgets/message/message.dart';
 import 'package:social_media/utils/responsive/responsive_design/responsivestyle.dart';
-import 'package:social_media/utils/text_custom/text.dart';
+import 'package:social_media/widgets/text_custom/text.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -27,7 +27,8 @@ class ChatScreen extends StatelessWidget {
           IconButton(
               onPressed: () {},
               icon: Icon(
-                Icons.phone,                color: Colors.black,
+                Icons.phone,
+                color: Colors.black,
                 size: 26.h,
               )),
           IconButton(
@@ -46,72 +47,49 @@ class ChatScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-               SizedBox(
-              width:mob ? 120.w : 50,
-              height: 40.h,
-                 child: const Message(content: 'how are you ?')),
-            SizedBox(
-              height: 40.h,
-              width:mob ? 120.w :50,
-                 child: const Message(content: 'iam good')),
+                SizedBox(
+                    width: mob ? 120.w : 50,
+                    height: 40.h,
+                    child: const Message(content: 'how are you ?')),
+                SizedBox(
+                    height: 40.h,
+                    width: mob ? 120.w : 50,
+                    child: const Message(content: 'iam good')),
               ],
             ),
-             
           ],
         ),
       ),
-       bottomSheet: Container(
+      bottomSheet: Container(
         height: 60.h,
         color: Colors.teal,
-         child: Row(
-                children: [
-                  Expanded(
-            child: TextFormField(
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
                 decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                prefixIcon: Padding(
-                  padding:  EdgeInsets.only(left: 20.w),
-                  child: SizedBox(
-                    width: 60.w,
-                    // child: Row(
-                    //   children: [
-                    //     IconButton(
-                    //         onPressed: () {},
-                    //         icon: const Icon(Icons.camera,
-                    //             color: Colors.grey)),
-                    //   ],
-                    // ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  prefixIcon: Padding(
+                    padding: EdgeInsets.only(left: 20.w),
+                    child: SizedBox(
+                      width: 60.w,
+                    ),
                   ),
+                  hintText: 'Type a message',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      borderSide: const BorderSide(
+                        width: 0,
+                        style: BorderStyle.none,
+                      )),
+                  contentPadding: const EdgeInsets.all(10),
                 ),
-                // suffixIcon: IconButton(
-                //     onPressed: () {},
-                //     icon: const Icon(Icons.collections, color: Colors.grey)),
-                hintText: 'Type a message',
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                    borderSide: const BorderSide(
-                      width: 0,
-                      style: BorderStyle.none,
-                    )),
-                contentPadding: const EdgeInsets.all(10),
               ),
             ),
-          ),
-          // Padding(
-          //   padding:  EdgeInsets.only(left: 5.w,right: 16.w, bottom: 8.h),
-          //   child: GestureDetector(
-          //     child: Icon(
-          //       Icons.send ,
-          //       size: 30.h,
-          //       color: Colors.white,
-          //     ),
-          //   ),
-          // )
-                ],
-               ),
-       ),
-          
+          ],
+        ),
+      ),
     );
   }
 }

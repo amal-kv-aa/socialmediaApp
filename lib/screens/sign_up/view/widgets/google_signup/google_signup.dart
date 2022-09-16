@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:social_media/screens/google_signup/google.provider.dart';
-import 'package:social_media/utils/text_custom/text.dart';
+import 'package:social_media/screens/google_signup/provider/google.provider.dart';
+import 'package:social_media/widgets/text_custom/text.dart';
 
 class GoogleSignUpPage extends StatelessWidget {
   const GoogleSignUpPage({Key? key}) : super(key: key);

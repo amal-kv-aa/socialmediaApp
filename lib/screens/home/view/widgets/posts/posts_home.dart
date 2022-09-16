@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:social_media/screens/full_view/view/fullview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:social_media/utils/manage_platform/mangae.dart';
 
 class HomePosts extends StatelessWidget {
-  const HomePosts({Key? key,required this.postimage}) : super(key: key);
+  const HomePosts({Key? key, required this.postimage}) : super(key: key);
   final String postimage;
   @override
   Widget build(BuildContext context) {
     return Container(
         height: 400.h,
         width: 262.w,
-        decoration:const BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
         ),
         child: Column(
@@ -19,7 +20,7 @@ class HomePosts extends StatelessWidget {
                 flex: 2,
                 child: SizedBox(
                   child: Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 10.w),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -54,13 +55,16 @@ class HomePosts extends StatelessWidget {
             Expanded(
               flex: 9,
               child: GestureDetector(
-                onTap: (() => Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=> FullView(image: postimage,)))),
+                onTap: () {
+                  ManagePlatform.set(
+                      context: context,
+                      mobscreen: FullView(image: postimage),
+                      secondsScreen: FullView(image: postimage));
+                },
                 child: Container(
                   decoration: BoxDecoration(
-                    image:  DecorationImage(
-                        image: NetworkImage(
-                            postimage),
-                        fit: BoxFit.cover),
+                    image: DecorationImage(
+                        image: NetworkImage(postimage), fit: BoxFit.cover),
                     color: Colors.white,
                   ),
                 ),
@@ -70,25 +74,22 @@ class HomePosts extends StatelessWidget {
                 flex: 2,
                 child: SizedBox(
                   child: Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 10.w),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                             Icon(Icons.telegram_outlined,size: 28.h),
+                            Icon(Icons.telegram_outlined, size: 28.h),
                             SizedBox(
                               width: 15.w,
                             ),
-                             Icon(Icons.mode_comment_outlined, size: 28.h),
+                            Icon(Icons.mode_comment_outlined, size: 28.h),
                             SizedBox(
                               width: 15.w,
                             ),
-                             Icon(
-                              Icons.favorite_border,
-                              size: 28.h
-                            ),
+                            Icon(Icons.favorite_border, size: 28.h),
                             SizedBox(
                               width: 10.w,
                             ),

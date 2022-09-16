@@ -4,10 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
-import 'package:social_media/screens/main_home/main_home.dart';
+import 'package:social_media/screens/main_home/view/widget/main_home.dart';
 import 'package:social_media/screens/otp/provider/otp_provider.dart';
 import 'package:social_media/screens/sign_up/model/auth.models.dart';
-import 'package:social_media/utils/text_custom/text.dart';
+import 'package:social_media/screens/sign_up/provider/sign_up_provider.dart';
+import 'package:social_media/widgets/text_custom/text.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({Key? key ,required this. user}) : super(key: key);
@@ -33,13 +34,13 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
       if (status == AnimationStatus.completed) {
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (ctx) => MainHome()));
-        // context.read<OtpProvider>().animcontroller.reset();
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+     final read = context.read<OtpProvider>();
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -111,7 +112,9 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                   onCompleted: (v) {
                     debugPrint("Completed");
                   },
-                  onTap: () {},
+                  onTap: () {
+
+                  },
                   onChanged: (value) {
                     debugPrint(value);
                   },
@@ -129,7 +132,9 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                         text: 'resend OTP',
                         style: const TextStyle(
                             color: Colors.blue, fontWeight: FontWeight.bold),
-                        recognizer: TapGestureRecognizer()..onTap = () {}),
+                        recognizer: TapGestureRecognizer()..onTap = () {
+                          context.read<SignUpProvider>().signup(context);
+                        }),
                   ),
                   SizedBox(
                     width: 30.w,
@@ -141,8 +146,8 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
               ),
               ElevatedButton(
                   onPressed: () {
-                    context.read<OtpProvider>().otpverify(context,widget.user!);
-                    context.read<OtpProvider>().showLoding(context: context);
+                    read.otpverify(context,widget.user!);
+                    read.showLoding(context: context);
                   },
                   child: const Text('submit'))
             ],

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:social_media/utils/text_custom/Text.dart';
+import 'package:social_media/widgets/text_custom/text.dart';
 
 class NotificationCard extends StatelessWidget {
-  const NotificationCard({Key? key, required this.color}) : super(key: key);
-  final Color color;
+  const NotificationCard({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,7 +17,6 @@ class NotificationCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-           
             Row(
               children: [
                 Container(

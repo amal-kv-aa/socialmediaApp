@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_media/screens/chat/view/chat.dart';
 import 'package:social_media/utils/responsive/responsive_design/responsivestyle.dart';
-import 'package:social_media/utils/text_custom/text.dart';
+import 'package:social_media/widgets/text_custom/text.dart';
 
 class MessageCard extends StatelessWidget {
   const MessageCard({Key? key, required this.color}) : super(key: key);

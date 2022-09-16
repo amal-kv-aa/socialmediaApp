@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_media/screens/messages/view/widgets/message_user/card_message.dart';
 import 'package:social_media/screens/profile/view/widgets/stories/stories.dart';
-import 'package:social_media/utils/text_custom/Text.dart';
+import 'package:social_media/widgets/text_custom/text.dart';
 
 class MessagesPage extends StatelessWidget {
   const MessagesPage({Key? key}) : super(key: key);
