@@ -1,8 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
+import 'package:social_media/screens/profile/models/usermodel.dart';
+import 'package:social_media/services/api/profile/user_profile_services.dart';
 
 class ProfileProvider with ChangeNotifier {
+ProfileProvider(){
+  togetProfiledata();
+}
+  ProfileModel ? userData ;
   double? tabbarheight;
   int pCount = 0;
 
@@ -15,17 +19,23 @@ class ProfileProvider with ChangeNotifier {
     required int childcount,
     required int crossAxisCount,
   }) {
-    log("full : ${MediaQuery.of(context).size.width.toString()}");
+   // log("full : ${MediaQuery.of(context).size.width.toString()}");
     double titleheight = MediaQuery.of(context).size.width / crossAxisCount;
     if (childcount == 0) return;
-    log("title : ${titleheight.toString()}");
+   // log("title : ${titleheight.toString()}");
     if (childcount % 2 != 0) {
       childcount++;
     }
-    log("childcount : ${childcount.toString()}");
-    log(" croxaxix: ${crossAxisCount.toString()}");
+    // log("childcount : ${childcount.toString()}");
+    // log(" croxaxix: ${crossAxisCount.toString()}");
     tabbarheight = titleheight * (childcount / crossAxisCount);
-    log("tabbarheight : ${tabbarheight.toString()}");
+    // log("tabbarheight : ${tabbarheight.toString()}");
     notifyListeners();
   }
+
+  togetProfiledata()async{
+   userData = await ProfileServices().getPostdatas();
+   notifyListeners();
+  }
+
 }

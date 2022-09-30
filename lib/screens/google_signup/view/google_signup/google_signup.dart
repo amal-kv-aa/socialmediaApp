@@ -11,7 +11,7 @@ class GoogleSignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        context.read<GooleSignupProvider>().login();
+        context.read<GooleSignupProvider>().login(context);
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

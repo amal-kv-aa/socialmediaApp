@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:social_media/screens/login/model/model_login.dart';
 import 'package:social_media/screens/main_home/view/widget/main_home.dart';
-import 'package:social_media/services/api/api.dart';
+import 'package:social_media/services/api/auth/api.dart';
 import 'package:social_media/widgets/loading/loading.dart';
 import 'package:social_media/widgets/snackbar/snackbar.dart';
 

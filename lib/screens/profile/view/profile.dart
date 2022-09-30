@@ -11,6 +11,7 @@ import 'package:social_media/services/helper/helperfunction.dart';
 import 'package:social_media/utils/responsive/responsive_design/responsivestyle.dart';
 import 'package:social_media/widgets/follower_styles/follow_cards.dart';
 import 'package:social_media/widgets/text_custom/text.dart';
+import '../../google_signup/provider/google.provider.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key, this.color}) : super(key: key);
@@ -33,6 +34,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final watch =  context.watch<ProfileProvider>();
     final mob = ResponsiveStyle.isMobile(context);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -58,16 +60,16 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                             value: 2,
                             onTap: () {
                               HelperFunction().deleteAccestoken().then((value) {
-                                 Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                     const Login(),
-                                ),
-                                (route) => true,
-                              );
+                                   context.read<GooleSignupProvider>().logout();
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        const Login(),
+                                  ),
+                                  (route) => true,
+                                );
                               });
-                             
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -93,8 +95,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                           EdgeInsets.symmetric(horizontal: mob ? 10.w : 15),
                       child: Row(
                         children: [
-                          const ProfileOuter(
-                            image:
+                           ProfileOuter(
+                            image:watch.userData?.otherDetails.avatar ??
                                 'https://images.unsplash.com/photo-1497316730643-415fac54a2af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
                           ),
                           SizedBox(width: mob ? 10.w : 20.w),
@@ -104,8 +106,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const CustomText(
-                                  text: 'Ronin',
+                                 CustomText(
+                                  text:watch.userData?.otherDetails.fullname ?? 'unKnown',
                                   weight: FontWeight.bold,
                                   size: 20,
                                 ),
@@ -136,7 +138,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                             width: double.infinity,
                             height: 90.h,
                             color: Colors.transparent,
-                            child: const FollowerCards())),
+                            child:  FollowerCards(data: watch.userData?.otherDetails,))),
                     SizedBox(
                       height: 10.h,
                     ),
@@ -176,16 +178,13 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                 child: Container(
               color: Colors.white,
               height: context.watch<ProfileProvider>().tabbarheight ?? 0,
-              child: 
-               TabBarView(controller: tabController, children: const [
+              child: TabBarView(controller: tabController, children:  [
                 PostsGridView(
-                  image:
-                      'https://tse3.mm.bing.net/th?id=OIP.gOZoSB7g6U1GN8SK5J4chgHaGv&pid=Api&P=0',
+                  post: watch.userData?.currentUserPosts,
                   length: 30,
                 ),
                 PostsGridView(
-                  image:
-                      'https://tse3.mm.bing.net/th?id=OIP.gOZoSB7g6U1GN8SK5J4chgHaGv&pid=Api&P=0',
+                  post: watch.userData?.currentUserPosts,
                   length: 31,
                 )
               ]),

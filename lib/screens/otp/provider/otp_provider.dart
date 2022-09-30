@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:social_media/screens/sign_up/model/auth.models.dart';
-import 'package:social_media/services/api/api.dart';
+import 'package:social_media/services/api/auth/api.dart';
 import 'package:social_media/widgets/snackbar/snackbar.dart';
 
 class OtpProvider with ChangeNotifier {

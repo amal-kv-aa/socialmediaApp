@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:social_media/screens/home/view/widgets/Posts/posts_home.dart';
+import 'package:provider/provider.dart';
+import 'package:social_media/screens/home/view/widgets/posts/posts_home.dart';
+import 'package:social_media/screens/newpost/provider/newpost_provider.dart';
 import 'package:social_media/screens/profile/view/widgets/stories/stories.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:social_media/widgets/text_custom/text.dart';
@@ -23,7 +25,9 @@ class Home extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                context.read<NewpostProvider>().chosePicker(context);
+              },
               icon: const Icon(
                 Icons.add_a_photo_outlined,
                 color: Colors.teal,
@@ -33,7 +37,9 @@ class Home extends StatelessWidget {
       body: SizedBox(
         height: double.infinity,
         width: double.infinity,
-        child: ListView(children: [
+        child: ListView(
+          physics:  const BouncingScrollPhysics(),
+          children: [
           SizedBox(
             height: 78.h,
             width: 61.w,
@@ -41,21 +47,24 @@ class Home extends StatelessWidget {
               color: Colors.cyan,
             ),
           ),
-          const
-           HomePosts(
-              postimage:
-                  'https://tse3.mm.bing.net/th?id=OIP.AR2L5wr4IXhioW5DQXJzKwHaFj&pid=Api&P=0'
-                  ),
-          const
-           HomePosts(
-              postimage:
-                  'https://tse3.mm.bing.net/th?id=OIP.AR2L5wr4IXhioW5DQXJzKwHaFj&pid=Api&P=0'
-                  ),
-          const
-           HomePosts(
-            postimage:
-                'https://tse3.mm.bing.net/th?id=OIP.AR2L5wr4IXhioW5DQXJzKwHaFj&pid=Api&P=0',
-          )
+          SizedBox(
+            height: 750.h,
+            width: 200.w,
+            child: Consumer<NewpostProvider>(
+              builder: (context, value, child) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: value.posts?.length,
+                  itemBuilder: (context, index) {
+                    return HomePosts(index: index,
+                      postdata: value.posts?[index]
+                    );
+                  },
+                );
+              },
+            ),
+          ),
         ]),
       ),
     );

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:social_media/screens/profile/models/usermodel.dart';
 import 'package:social_media/utils/responsive/responsive_design/responsivestyle.dart';
 
 class FollowerCards extends StatelessWidget {
-  const FollowerCards({Key? key,}) : super(key: key);
-  
+  const FollowerCards({Key? key,required this.data}) : super(key: key);
+  final OtherDetails? data; 
   @override
   Widget build(BuildContext context) {
     final mob = ResponsiveStyle.isMobile(context);
@@ -21,13 +22,13 @@ class FollowerCards extends StatelessWidget {
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text('Following',
+            children:  [
+              const Text('Following',
                   style: TextStyle(
                     color: Colors.white,
                   )),
-              Text('1004',
-                  style: TextStyle(
+              Text(data?.following.length.toString() ?? "null",
+                  style: const TextStyle(
                     color: Colors.white,
                   ))
             ],
@@ -48,7 +49,7 @@ class FollowerCards extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.white,
                   )),
-              Text('16',
+              Text('0',
                   style: TextStyle(
                     color: Colors.white,
                   ))
@@ -69,13 +70,13 @@ class FollowerCards extends StatelessWidget {
               crossAxisAlignment: WrapCrossAlignment.center,
               verticalDirection: VerticalDirection.down,
               direction: Axis.vertical,
-              children: const [
-                Text('Follwers',
+              children:  [
+                const Text('Follwers',
                     style: TextStyle(
                       color: Colors.white,
                     )),
-                Text('3646',
-                    style: TextStyle(
+                Text(data?.followers.length.toString() ?? '2',
+                    style: const TextStyle(
                       color: Colors.white,
                     ))
               ],

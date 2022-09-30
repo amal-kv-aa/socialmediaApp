@@ -1,4 +1,6 @@
+import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:social_media/screens/google_signup/models/google_models.dart';
 import 'package:social_media/screens/login/model/model_login.dart';
 import 'package:social_media/services/api_endpoins/api_endoints.dart';
 import 'package:social_media/screens/sign_up/model/auth.models.dart';
@@ -13,9 +15,10 @@ class ApiServices extends ApiEndPoints {
           await Dio().post("${authbaseUrl}signup", data: user.tojson());
       if (response.statusCode == 200 || response.statusCode == 201) {
         return done;
-      } else {}
+      }
     } on DioError catch (e) {
-      if (e.message.startsWith("SocketException")) {
+      if (e.message.startsWith("SocketException")) 
+      {
         return netError;
       }
       return e.response!.data['error'];
@@ -32,7 +35,7 @@ class ApiServices extends ApiEndPoints {
       data["Otp"] = otp;
       final response = await Dio().post("${authbaseUrl}verifyOtp", data: data);
       if (response.statusCode == 201 || response.statusCode == 200) {
-        String token  =  response.data['token'];
+        String token  =  response.data['encryptToken'];
         String userId =  response.data['id'];
         HelperFunction().setAccesstocken(token);
         HelperFunction().setuserId(userId);
@@ -53,10 +56,12 @@ class ApiServices extends ApiEndPoints {
       final response =
           await Dio().post("${authbaseUrl}signin", data: user.tojson());
       if (response.statusCode! >= 200 && response.statusCode! <= 299) {
-        String token =  response.data['token'];
+        log(done);
+        String token =  response.data['encryptToken'];
         String userId =  response.data['id'];
         HelperFunction().setAccesstocken(token);
         HelperFunction().setuserId(userId);
+
         return done;
       }
     } on DioError catch (e) {
@@ -67,11 +72,27 @@ class ApiServices extends ApiEndPoints {
     }
     return otherError;
   }
-}
-//=======================checking=internet=error=================//
-String networkError(DioError e) {
-  if (e.message.startsWith("SocketException")) {
-    return "no internet connection";
+ //=======================googleSignup======================//
+ Future<String>? googleSignIn(GoogleModel accountData)async
+ {
+   try {
+    log("enter");
+      final response =
+          await Dio().post("${authbaseUrl}googleSignup", data: accountData.toJson());
+      if (response.statusCode! >= 200 && response.statusCode! <= 299) {
+        String token =  response.data['encryptToken'];
+        String userId =  response.data['id'];
+        HelperFunction().setAccesstocken(token);
+        HelperFunction().setuserId(userId);
+        return done;
+      }
+    } on DioError catch (e) {
+     if (e.message.startsWith("SocketException")) {
+        return netError;
+      }
+      log(e.message);
+      return e.response!.data['error'];
+    }
+    return otherError;
   }
-  return e.response!.data['error'];
 }

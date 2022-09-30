@@ -6,14 +6,12 @@ import 'package:social_media/screens/desktop/provider/provider.dart';
 import 'package:social_media/screens/google_signup/provider/google.provider.dart';
 import 'package:social_media/screens/lobi/provider/loby_provider.dart';
 import 'package:social_media/screens/login/provider/login_provider.dart';
-import 'package:social_media/screens/main_home/view/widget/main_home.dart';
+import 'package:social_media/screens/newpost/provider/newpost_provider.dart';
 import 'package:social_media/screens/otp/provider/otp_provider.dart';
 import 'package:social_media/screens/profile/provider/profile_provider.dart';
 import 'package:social_media/screens/sign_up/provider/sign_up_provider.dart';
 import 'package:social_media/screens/splash/provider/splash_provider.dart';
 import 'package:social_media/screens/splash/view/splash.dart';
-import 'package:social_media/services/helper/helperfunction.dart';
-
 void main() {
   //=======landscap rotation lock=========//
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,8 +27,8 @@ void main() {
       ChangeNotifierProvider(create: (_) =>DesktopProvider()),
       ChangeNotifierProvider(create: (_) =>OtpProvider()),
       ChangeNotifierProvider(create: (_) =>GooleSignupProvider()),
-      ChangeNotifierProvider(create: (_) =>ProfileProvider())
-      
+      ChangeNotifierProvider(create: (_) =>ProfileProvider()),
+      ChangeNotifierProvider(create: (_)=>NewpostProvider())
     ],
     child: const MyApp(),
   ));
@@ -50,7 +48,7 @@ class MyApp extends StatelessWidget {
             iconTheme: IconThemeData(color: Colors.black, size: 22.h)),
         home:  
         
-       const Splash()  ,
+       const Splash(),
         debugShowCheckedModeBanner: false,
       );
       },

@@ -1,10 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:social_media/screens/otp/view/otp.dart';
-import 'package:social_media/services/api/api.dart';
+import 'package:social_media/services/api/auth/api.dart';
 import 'package:social_media/screens/sign_up/model/auth.models.dart';
 import 'package:social_media/widgets/snackbar/snackbar.dart';
-
 import '../../../widgets/loading/loading.dart';
 
 class SignUpProvider with ChangeNotifier {
@@ -38,7 +37,7 @@ class SignUpProvider with ChangeNotifier {
     return null;
   }
 
-  //================phone number==============//
+//================phone number==============//
   String? phoneValidate(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'phonenumber required';
@@ -58,7 +57,7 @@ class SignUpProvider with ChangeNotifier {
     return null;
   }
 
-  //===============confirm==password==========//
+//===============confirm==password==========//
   String? confirmValidate(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'confirmpassword required';
@@ -78,7 +77,7 @@ class SignUpProvider with ChangeNotifier {
       return;
     }
   }
-
+  
   //==========================signup======================//
   Future<void> signup(context) async {
     final user = User(

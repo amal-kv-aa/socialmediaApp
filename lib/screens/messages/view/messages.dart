@@ -6,9 +6,8 @@ import 'package:social_media/widgets/text_custom/text.dart';
 
 class MessagesPage extends StatelessWidget {
   const MessagesPage({Key? key}) : super(key: key);
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

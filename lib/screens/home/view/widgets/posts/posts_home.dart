@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:social_media/screens/full_view/view/fullview.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:social_media/utils/manage_platform/mangae.dart';
+import 'package:social_media/screens/home/model/post_model.dart';
+import 'package:social_media/screens/newpost/provider/newpost_provider.dart';
 
 class HomePosts extends StatelessWidget {
-  const HomePosts({Key? key, required this.postimage}) : super(key: key);
-  final String postimage;
+  const HomePosts({Key? key, required this.postdata, required this.index})
+      : super(key: key);
+  final PostModel? postdata;
+  final int index;
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 400.h,
+        height: 550.h,
         width: 262.w,
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -53,50 +56,74 @@ class HomePosts extends StatelessWidget {
                   ),
                 )),
             Expanded(
-              flex: 9,
-              child: GestureDetector(
-                onTap: () {
-                  ManagePlatform.set(
-                      context: context,
-                      mobscreen: FullView(image: postimage),
-                      secondsScreen: FullView(image: postimage));
-                },
-                child: Container(
-                  decoration: BoxDecoration(
+              flex: 10,
+              child: Container(
+                decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage(postimage), fit: BoxFit.cover),
-                    color: Colors.white,
-                  ),
-                ),
+                        image: NetworkImage(postdata!.image),
+                        fit: BoxFit.fitWidth),
+                    color: Colors.white),
               ),
             ),
             Expanded(
                 flex: 2,
                 child: SizedBox(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Icon(Icons.telegram_outlined, size: 28.h),
-                            SizedBox(
-                              width: 15.w,
-                            ),
-                            Icon(Icons.mode_comment_outlined, size: 28.h),
-                            SizedBox(
-                              width: 15.w,
-                            ),
-                            Icon(Icons.favorite_border, size: 28.h),
-                            SizedBox(
-                              width: 10.w,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Icon(Icons.telegram_outlined, size: 28.h),
+                                SizedBox(
+                                  width: 15.w,
+                                ),
+                                Icon(Icons.mode_comment_outlined, size: 28.h),
+                                SizedBox(
+                                  width: 15.w,
+                                ),
+                                IconButton(
+                                    onPressed: () {
+                                      context
+                                          .read<NewpostProvider>()
+                                          .toLike(postdata!.id, context, index);
+                                    },
+                                    icon: Icon(
+                                      context
+                                                  .watch<NewpostProvider>()
+                                                  .checklike(postdata!.likes) ==
+                                              false
+                                          ? Icons.favorite_border
+                                          : Icons.favorite,
+                                      size: 28.h,
+                                      color: Colors.red,
+                                    )),
+                                SizedBox(
+                                  width: 10.w,
+                                )
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          postdata!.likes.isNotEmpty
+                              ? Text(
+                                  "${postdata!.likes.length.toString()}  likes",
+                                  style: const TextStyle(color: Colors.black),
+                                )
+                              : const SizedBox()
+                        ],
+                      )
+                    ],
                   ),
                 )),
           ],

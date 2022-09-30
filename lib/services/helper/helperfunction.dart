@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HelperFunction {
@@ -15,7 +13,6 @@ class HelperFunction {
   Future<String>? getAccestoken() async {
     SharedPreferences data = await SharedPreferences.getInstance();
     String? accesstoken = data.getString(key);
-    log(accesstoken.toString());
     return accesstoken ?? "";
   }
 

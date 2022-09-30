@@ -2,9 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:social_media/screens/google_signup/view/google_signup/google_signup.dart';
 import 'package:social_media/screens/login/provider/login_provider.dart';
 import 'package:social_media/screens/sign_up/provider/sign_up_provider.dart';
-import 'package:social_media/screens/sign_up/view/widgets/google_signup/google_signup.dart';
 import 'package:social_media/screens/sign_up/view/widgets/textfield/textfield.dart';
 import 'package:social_media/widgets/text_custom/text.dart';
 
