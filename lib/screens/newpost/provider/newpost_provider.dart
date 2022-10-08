@@ -1,24 +1,23 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:social_media/screens/home/model/post_model.dart';
+import 'package:social_media/screens/home/model/postmodel/post_model.dart';
+import 'package:social_media/screens/home/provider/home_provider.dart';
 import 'package:social_media/screens/newpost/view/newpost.dart';
 import 'package:social_media/screens/profile/models/usermodel.dart';
 import 'package:social_media/screens/profile/provider/profile_provider.dart';
 import 'package:social_media/services/api/posts/posts_api.dart';
 import 'package:social_media/services/helper/helperfunction.dart';
 import 'package:social_media/utils/user/current_user.dart';
+import 'package:social_media/widgets/loading/loading.dart';
 import 'package:social_media/widgets/snackbar/snackbar.dart';
 
 class NewpostProvider with ChangeNotifier {
-  NewpostProvider() {
-    fetchPosts();
-  }
-  List<int> islike = [];
-  List<PostModel>? posts ;
+
+
+
   File? imagepath;
   TextEditingController captionController = TextEditingController();
   TextEditingController tagController = TextEditingController();
@@ -106,11 +105,12 @@ class NewpostProvider with ChangeNotifier {
         userId: userid.toString());
 
     PostapiServices().postimages(postdata)!.then((value) {
-      if (value == "success") {
+      if (value == "success") 
+      {
         clearField();
         Navigator.pop(context);
         CustomSnackbar.showSnack(context: context, text: "post added");
-        fetchPosts();
+       context.read<HomeProvider>().fetchPosts();
         context.read<ProfileProvider>().togetProfiledata();
       } else {
         clearField();
@@ -119,31 +119,10 @@ class NewpostProvider with ChangeNotifier {
     });
   }
 
-  void fetchPosts() async {
-    posts = await PostapiServices().getPostdatas();
-    notifyListeners();
-  }
-
   clearField() {
     captionController.clear();
     tagController.clear();
   }
 
-  //===========like===post=======//
-  toLike(postid, BuildContext context, uid) {
-    PostapiServices().likeposts(postid)!.then((value) => {
-          if (value == "success")
-            {
-              fetchPosts(),
-            }
-          else
-            {CustomSnackbar.showSnack(context: context, text: value)}
-        });
-  }
-
-  bool checklike(List likes) {
-    log("ooo...${CurrentUser.userId}");
-    return likes.contains(CurrentUser.userId);
-  }
 
 }

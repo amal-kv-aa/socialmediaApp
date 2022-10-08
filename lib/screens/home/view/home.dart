@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:social_media/screens/home/provider/home_provider.dart';
 import 'package:social_media/screens/home/view/widgets/posts/posts_home.dart';
+import 'package:social_media/screens/home/view/widgets/suggetion/suggetion.dart';
 import 'package:social_media/screens/newpost/provider/newpost_provider.dart';
-import 'package:social_media/screens/profile/view/widgets/stories/stories.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:social_media/screens/profile/view/widgets/stories/stories.dart';
 import 'package:social_media/widgets/text_custom/text.dart';
 
 class Home extends StatelessWidget {
@@ -34,39 +36,52 @@ class Home extends StatelessWidget {
               ))
         ],
       ),
-      body: SizedBox(
-        height: double.infinity,
-        width: double.infinity,
-        child: ListView(
-          physics:  const BouncingScrollPhysics(),
-          children: [
-          SizedBox(
-            height: 78.h,
-            width: 61.w,
-            child: const Stories(
-              color: Colors.cyan,
-            ),
-          ),
-          SizedBox(
-            height: 750.h,
-            width: 200.w,
-            child: Consumer<NewpostProvider>(
-              builder: (context, value, child) {
-                return ListView.builder(
+      body: ListView(physics: const NeverScrollableScrollPhysics(), children: [
+        SizedBox(
+          height: 78.h,
+          width: 61.w,
+          child: const Stories(color: Colors.cyan),
+        ),
+        SizedBox(
+          height: 600.h,
+          width: 200.w,
+          child: Consumer<HomeProvider>(
+            builder: (context, value, child) {
+              if (value.posts == null) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (value.posts!.isEmpty) {
+                return  Center(
+                    child: CustomText(
+                  text: "Add some friends",
+                  size: 25.sp,
+                  fontfamily: "cursive",
+                  weight: FontWeight.bold,
+                ));
+              }
+              return RefreshIndicator(
+                onRefresh: () => context.read<HomeProvider>().fetchPosts(),
+                child: ListView.builder(
                   shrinkWrap: true,
+                  primary: false,
                   physics: const BouncingScrollPhysics(),
                   itemCount: value.posts?.length,
                   itemBuilder: (context, index) {
-                    return HomePosts(index: index,
-                      postdata: value.posts?[index]
-                    );
+                    if (index == value.posts!.length ~/ 2) {
+                      return Suggetions(
+                          index: index);
+                    }
+                    return HomePosts(
+                        userDetails: value.posts?[index],
+                        index: index,
+                        postdata: value.posts?[index].userId);
                   },
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
-        ]),
-      ),
+        ),
+        SizedBox(height: 200.h)
+      ]),
     );
   }
 }

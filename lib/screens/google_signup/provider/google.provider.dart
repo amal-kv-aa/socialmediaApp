@@ -9,41 +9,38 @@ import 'package:social_media/widgets/snackbar/snackbar.dart';
 class GooleSignupProvider with ChangeNotifier {
   final googleSignIn = GoogleSignIn();
 
-  
-  Future <void> login(BuildContext context)  {
-    return
-     googleSignIn.signIn().then((user){
-       if (user == null)  
-    {
-      log("null....user");
-      return;
-    } else {
-      log("hey....user");
-     final googledata = GoogleModel(userEmail: user.email, password: user.id, userName: user.displayName!);
+  Future<void> login(BuildContext context) {
+    return googleSignIn.signIn().then((user) {
+      if (user == null) {
+        log("null....user");
+        return;
+      } else {
+        log("hey....user");
+        final googledata = GoogleModel(
+            userEmail: user.email,
+            password: user.id,
+            userName: user.displayName!);
 
-      log(user.email.toString());
-      log(user.id.toString());
-      log(user.displayName.toString());
-      togoogleSignin(googledata, context);
-    }
-     });
-   
+        log(user.email.toString());
+        log(user.id.toString());
+        log(user.displayName.toString());
+        togoogleSignin(googledata, context);
+      }
+    });
   }
 
-  Future logout()async{
- await googleSignIn.signOut();
- log("logout ok");
+  Future logout() async {
+    await googleSignIn.signOut();
+    log("logout ok");
   }
-
 
   togoogleSignin(GoogleModel data, BuildContext context) {
     ApiServices().googleSignIn(data)!.then((value) {
       {
         if (value == "success") {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>MainHome()));
-        } 
-         else  
-        {
+          Navigator.of(context)
+              .pushReplacement(MaterialPageRoute(builder: (ctx) => MainHome()));
+        } else {
           CustomSnackbar.showSnack(context: context, text: value);
         }
       }

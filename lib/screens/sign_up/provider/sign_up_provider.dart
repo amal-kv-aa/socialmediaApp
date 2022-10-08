@@ -72,7 +72,7 @@ class SignUpProvider with ChangeNotifier {
     if (formkey.currentState!.validate() == false) {
       return;
     } else {
-      Loding.progressbar(context);
+      Loading(context).progressbar(true);
       signup(context);
       return;
     }
@@ -91,13 +91,13 @@ class SignUpProvider with ChangeNotifier {
      ApiServices().signupRequest(user)!.then((value) {
   if (value == "success")
     {
-      Navigator.pop(context);
+     Loading(context).progressbar(false);
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (ctx) => OtpScreen(user: user)));
       CustomSnackbar.showSnack(
           context: context, text: "OTP sended to your Phonenumber");
     } else {
-      Navigator.pop(context);
+      Loading(context).progressbar(false);
       CustomSnackbar.showSnack(context: context, text: value);
     }
     });

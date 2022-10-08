@@ -37,8 +37,6 @@ class NewPost extends StatelessWidget {
                     image:  DecorationImage(
                         image:
                          FileImage(File(watch.imagepath!.path)),
-                        // //: 
-                        // AssetImage("assets/images/avatar-1-1536x1536.jpeg"),
                         fit: BoxFit.fill),
                     color: Colors.black),
                 height: 170.h,

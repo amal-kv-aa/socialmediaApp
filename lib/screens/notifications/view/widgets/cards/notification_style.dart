@@ -7,7 +7,7 @@ class NotificationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 2.h,horizontal: 10.w),
+      padding: EdgeInsets.symmetric(vertical: 2.r,horizontal: 10.r),
       child: Container(
         height: 70.h,
         width: 304.w,
@@ -21,7 +21,7 @@ class NotificationCard extends StatelessWidget {
               children: [
                 Container(
                   height: 50.h,
-                  width: 50.h,
+                  width: 50.w,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius:  BorderRadius.circular(30),
@@ -31,7 +31,7 @@ class NotificationCard extends StatelessWidget {
                           fit: BoxFit.cover)),
                 ),
                 SizedBox(width: 10.w,),
-              const  CustomText(text: 'Ronin rquested following you',size: 10,)
+                CustomText(text: 'Ronin rquested following you',size: 10.sp,)
               ],
             ),
             Row(

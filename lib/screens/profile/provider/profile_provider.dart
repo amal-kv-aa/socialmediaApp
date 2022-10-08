@@ -6,7 +6,7 @@ class ProfileProvider with ChangeNotifier {
 ProfileProvider(){
   togetProfiledata();
 }
-  ProfileModel ? userData ;
+  UserDetails ? userData;
   double? tabbarheight;
   int pCount = 0;
 
@@ -19,23 +19,18 @@ ProfileProvider(){
     required int childcount,
     required int crossAxisCount,
   }) {
-   // log("full : ${MediaQuery.of(context).size.width.toString()}");
     double titleheight = MediaQuery.of(context).size.width / crossAxisCount;
     if (childcount == 0) return;
-   // log("title : ${titleheight.toString()}");
     if (childcount % 2 != 0) {
       childcount++;
     }
-    // log("childcount : ${childcount.toString()}");
-    // log(" croxaxix: ${crossAxisCount.toString()}");
     tabbarheight = titleheight * (childcount / crossAxisCount);
-    // log("tabbarheight : ${tabbarheight.toString()}");
     notifyListeners();
   }
 
-  togetProfiledata()async{
+ Future <void> togetProfiledata()async{
    userData = await ProfileServices().getPostdatas();
    notifyListeners();
   }
-
+  
 }

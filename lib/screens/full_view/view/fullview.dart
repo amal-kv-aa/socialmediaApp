@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:social_media/screens/home/provider/home_provider.dart';
+import 'package:social_media/screens/newpost/provider/newpost_provider.dart';
+import 'package:social_media/screens/profile/models/usermodel.dart';
 
 class FullView extends StatelessWidget {
-  const FullView({Key? key, required this.image}) : super(key: key);
-  final String  image;
+  const FullView({Key? key, required this.post,required this. index,}) : super(key: key);
+  final UserDetails? post  ;
+  final int? index;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,14 +37,13 @@ class FullView extends StatelessWidget {
                           Row(
                             children: [
                               SizedBox(width: 10.w),
-                              const CircleAvatar(
+                               CircleAvatar(
                                 minRadius: 20,
                                 maxRadius: 20,
-                                backgroundImage: NetworkImage(
-                                    'https://tse3.mm.bing.net/th?id=OIP.QVMM2UDR8RNepSaTM1a8fQHaIa&pid=Api&P=0'),
+                                backgroundImage: NetworkImage(post!.avatar),
                               ),
                               SizedBox(width: 20.w),
-                              const Text("ronin")
+                               Text(post?.fullname ?? "ronin")
                             ],
                           ),
                           PopupMenuButton(
@@ -52,9 +56,11 @@ class FullView extends StatelessWidget {
                                 value: 1,
                                 child: Text('mssmd'),
                               ),
-                              const PopupMenuItem(
+                               PopupMenuItem(
                                 value: 2,
-                                child: Text('sdksk'),
+                                child:TextButton(onPressed: (){
+                                  context.read<HomeProvider>().toDeletepost(post!.posts[index!].id, context);
+                                }, child:  const Text('Delete post')),
                               )
                             ],
                           )
@@ -68,7 +74,7 @@ class FullView extends StatelessWidget {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           image: DecorationImage(
-                              image: NetworkImage(image),
+                              image: NetworkImage(post!.posts[index!].image),
                               fit: BoxFit.cover)),
                     ),
                   ),
@@ -80,7 +86,7 @@ class FullView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           IconButton(
-                              onPressed: () {},
+                              onPressed: (){},
                               icon: const Icon(
                                 Icons.save_outlined,
                                 size: 26,
@@ -90,7 +96,9 @@ class FullView extends StatelessWidget {
                             children: [
                               SizedBox(width: 10.w),
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+
+                                  },
                                   icon: const Icon(
                                     Icons.telegram,
                                     size: 26,

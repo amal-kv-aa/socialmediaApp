@@ -8,9 +8,10 @@ import 'package:social_media/utils/user/current_user.dart';
 class SplashProvider with ChangeNotifier {
   Future gotoHome(BuildContext context) async {
     String? token = await HelperFunction().getAccestoken();
-    String id = await  HelperFunction().getuserId()!;
+    String id = await HelperFunction().getuserId()!;
+    log(token.toString());
     log(id);
-    CurrentUser.userId=id;
+    CurrentUser.userId = id;
     await Future.delayed(const Duration(seconds: 3)).then((value) {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (ctx) => token!.isNotEmpty ? MainHome() : const Login()));

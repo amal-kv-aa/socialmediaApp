@@ -1,81 +1,109 @@
 import 'package:flutter/material.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:social_media/screens/home/model/post_model.dart';
-import 'package:social_media/screens/newpost/provider/newpost_provider.dart';
+import 'package:social_media/screens/home/model/postmodel/post_model.dart';
+import 'package:social_media/screens/home/provider/home_provider.dart';
 
 class HomePosts extends StatelessWidget {
-  const HomePosts({Key? key, required this.postdata, required this.index})
+  const HomePosts(
+      {Key? key,
+      required this.postdata,
+      required this.index,
+      required this.userDetails
+      })
       : super(key: key);
-  final PostModel? postdata;
+  final UserId? postdata;
+  final PostModel? userDetails;
   final int index;
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 550.h,
+        height: 570.h,
         width: 262.w,
         decoration: const BoxDecoration(
           color: Colors.white,
         ),
         child: Column(
           children: [
-            Expanded(
-                flex: 2,
-                child: SizedBox(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            SizedBox(
+              height: 80.h,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              minRadius: 20.h,
-                              maxRadius: 20.h,
-                              backgroundColor: Colors.black,
-                              backgroundImage: const NetworkImage(
-                                  'https://sm.askmen.com/t/askmen_in/article/f/facebook-p/facebook-profile-picture-affects-chances-of-gettin_fr3n.1200.jpg'),
-                            ),
-                            SizedBox(
-                              width: 20.w,
-                            ),
-                            const Text(
-                              'tom',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ],
+                        CircleAvatar(
+                          minRadius: 20.h,
+                          maxRadius: 20.h,
+                          backgroundColor: Colors.black,
+                          backgroundImage: NetworkImage(userDetails
+                                  ?.userId.avatar
+                                  .toString() ??
+                              'https://sm.askmen.com/t/askmen_in/article/f/facebook-p/facebook-profile-picture-affects-chances-of-gettin_fr3n.1200.jpg'),
                         ),
-                        IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.more_vert,
-                              size: 24.h,
-                            ))
+                        SizedBox(
+                          width: 20.w,
+                        ),
+                        Text(
+                          userDetails?.userId.fullname ?? 'tom',
+                          style: const TextStyle(color: Colors.black),
+                        ),
                       ],
                     ),
-                  ),
-                )),
-            Expanded(
-              flex: 10,
-              child: Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(postdata!.image),
-                        fit: BoxFit.fitWidth),
-                    color: Colors.white),
+                    PopupMenuButton(
+                        icon: Icon(
+                          Icons.more_vert,
+                          color: Colors.black,
+                          size: 26.h,
+                        ),
+                        itemBuilder: (context) => [
+                              const PopupMenuItem(
+                                value: 1,
+                                child: Text("Account settings"),
+                              ),
+                              PopupMenuItem(
+                                value: 2,
+                                onTap: () {},
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: const [
+                                    Text("Delete post"),
+                                    Icon(Icons.logout_rounded,
+                                        color: Colors.black)
+                                  ],
+                                ),
+                              )
+                            ])
+                  ],
+                ),
               ),
             ),
-            Expanded(
-                flex: 2,
-                child: SizedBox(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
+            Flexible(
+              child: PinchZoom(
+                resetDuration: const Duration(milliseconds: 100),
+                maxScale: 2.5,
+                child: FadeInImage(
+                    placeholder: NetworkImage(userDetails?.image ?? ""),
+                    image: NetworkImage(userDetails?.image ?? "")),
+              ),
+            ),
+            SizedBox(
+              height: 100.h,
+              child: Column(
+                children: [
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Consumer<HomeProvider>(
+                          builder: (context, value, child) {
+                            return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Icon(Icons.telegram_outlined, size: 28.h),
@@ -88,45 +116,61 @@ class HomePosts extends StatelessWidget {
                                 ),
                                 IconButton(
                                     onPressed: () {
-                                      context
-                                          .read<NewpostProvider>()
-                                          .toLike(postdata!.id, context, index);
+                                      value.toLike(postdata!.id, context,
+                                          userDetails!.likes);
                                     },
-                                    icon: Icon(
-                                      context
-                                                  .watch<NewpostProvider>()
-                                                  .checklike(postdata!.likes) ==
-                                              false
-                                          ? Icons.favorite_border
-                                          : Icons.favorite,
-                                      size: 28.h,
-                                      color: Colors.red,
-                                    )),
+                                    icon: value.checklike(userDetails!.likes) ==
+                                            false
+                                        ? Icon(
+                                            Icons.favorite_outline,
+                                            size: 28.h,
+                                            color: Colors.black,
+                                          )
+                                        : Icon(
+                                            Icons.favorite,
+                                            size: 28.h,
+                                            color: Colors.red,
+                                          )),
                                 SizedBox(
                                   width: 10.w,
                                 )
                               ],
-                            ),
-                          ],
+                            );
+                          },
                         ),
-                      ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: [
                       Row(
                         children: [
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          postdata!.likes.isNotEmpty
+                          SizedBox(width: 20.w),
+                          userDetails!.likes.isNotEmpty
                               ? Text(
-                                  "${postdata!.likes.length.toString()}  likes",
+                                  "${userDetails!.likes.length.toString()}  likes",
                                   style: const TextStyle(color: Colors.black),
                                 )
-                              : const SizedBox()
+                              : const SizedBox(),
+                          SizedBox(width: 30.w),
+                          SizedBox(
+                            width: 250.w,
+                            child: Text(
+                              userDetails?.caption ?? "",
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "cursive",
+                                  overflow: TextOverflow.ellipsis),
+                            ),
+                          ),
                         ],
                       )
                     ],
                   ),
-                )),
+                ],
+              ),
+            ),
           ],
         ));
-  }
+        }
 }

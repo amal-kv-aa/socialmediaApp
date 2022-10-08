@@ -18,90 +18,29 @@ class UserPostModels{
 }
 
 
-ProfileModel profileModelFromJson(String str) => ProfileModel.fromJson(json.decode(str));
-// List<ProfileModel> getProfileModelFromJson(List list) =>
-//     List<ProfileModel>.from(list.map((x) => ProfileModel.fromJson(x)));
 
-String profileModelToJson(ProfileModel data) => json.encode(data.toJson());
+UserDatas userDatasFromJson(String str) => UserDatas.fromJson(json.decode(str));
 
-class ProfileModel {
-    ProfileModel({
-       required this.otherDetails,
-      required  this.currentUserPosts,
+String userDatasToJson(UserDatas data) => json.encode(data.toJson());
+
+class UserDatas {
+    UserDatas({
+       required this.userDetails,
     });
 
-    OtherDetails otherDetails;
-    List<CurrentUserPost> currentUserPosts;
+    UserDetails userDetails;
 
-    factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
-        otherDetails: OtherDetails.fromJson(json["otherDetails"]),
-        currentUserPosts: List<CurrentUserPost>.from(json["currentUserPosts"].map((x) => CurrentUserPost.fromJson(x))),
+    factory UserDatas.fromJson(Map<String, dynamic> json) => UserDatas(
+        userDetails: UserDetails.fromJson(json["userDetails"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "otherDetails": otherDetails.toJson(),
-        "currentUserPosts": List<dynamic>.from(currentUserPosts.map((x) => x.toJson())),
+        "userDetails": userDetails.toJson(),
     };
 }
 
-class CurrentUserPost {
-    CurrentUserPost({
-       required this.id,
-       required this.userId,
-       required this.image,
-       required this.caption,
-       required this.hashtags,
-       required this.likes,
-       required this.savedBy,
-       required this.comments,
-       required this.createdAt,
-       required this.updatedAt,
-      required  this.v,
-    });
-
-    String id;
-    String userId;
-    String image;
-    String caption;
-    List<dynamic> hashtags;
-    List<String> likes;
-    List<dynamic> savedBy;
-    List<dynamic> comments;
-    DateTime createdAt;
-    DateTime updatedAt;
-    int v;
-
-    factory CurrentUserPost.fromJson(Map<String, dynamic> json) => CurrentUserPost(
-        id: json["_id"],
-        userId: json["userId"],
-        image: json["image"],
-        caption: json["caption"],
-        hashtags: List<dynamic>.from(json["hashtags"].map((x) => x)),
-        likes: List<String>.from(json["likes"].map((x) => x)),
-        savedBy: List<dynamic>.from(json["savedBy"].map((x) => x)),
-        comments: List<dynamic>.from(json["comments"].map((x) => x)),
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        v: json["__v"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "_id": id,
-        "userId": userId,
-        "image": image,
-        "caption": caption,
-        "hashtags": List<dynamic>.from(hashtags.map((x) => x)),
-        "likes": List<dynamic>.from(likes.map((x) => x)),
-        "savedBy": List<dynamic>.from(savedBy.map((x) => x)),
-        "comments": List<dynamic>.from(comments.map((x) => x)),
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
-        "__v": v,
-    };
-}
-
-class OtherDetails {
-    OtherDetails({
+class UserDetails {
+    UserDetails({
        required this.id,
        required this.username,
        required this.fullname,
@@ -109,6 +48,7 @@ class OtherDetails {
        required this.phoneNumber,
        required this.avatar,
        required this.bio,
+       required this.posts,
        required this.followers,
        required this.saved,
        required this.following,
@@ -126,6 +66,7 @@ class OtherDetails {
     int phoneNumber;
     String avatar;
     String bio;
+    List<Post> posts;
     List<dynamic> followers;
     List<dynamic> saved;
     List<dynamic> following;
@@ -135,7 +76,7 @@ class OtherDetails {
     DateTime updatedAt;
     int v;
 
-    factory OtherDetails.fromJson(Map<String, dynamic> json) => OtherDetails(
+    factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
         id: json["_id"],
         username: json["username"],
         fullname: json["fullname"],
@@ -143,6 +84,7 @@ class OtherDetails {
         phoneNumber: json["phoneNumber"],
         avatar: json["avatar"],
         bio: json["bio"],
+        posts: List<Post>.from(json["posts"].map((x) => Post.fromJson(x))),
         followers: List<dynamic>.from(json["followers"].map((x) => x)),
         saved: List<dynamic>.from(json["saved"].map((x) => x)),
         following: List<dynamic>.from(json["following"].map((x) => x)),
@@ -161,11 +103,68 @@ class OtherDetails {
         "phoneNumber": phoneNumber,
         "avatar": avatar,
         "bio": bio,
+        "posts": List<dynamic>.from(posts.map((x) => x.toJson())),
         "followers": List<dynamic>.from(followers.map((x) => x)),
         "saved": List<dynamic>.from(saved.map((x) => x)),
         "following": List<dynamic>.from(following.map((x) => x)),
         "private": private,
         "blocked": blocked,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+        "__v": v,
+    };
+}
+
+class Post {
+    Post({
+       required this.id,
+       required this.userId,
+       required this.image,
+       required this.caption,
+       required this.hashtags,
+       required this.likes,
+       required this.savedBy,
+      required  this.comments,
+      required  this.createdAt,
+      required  this.updatedAt,
+      required  this.v,
+    });
+
+    String id;
+    String userId;
+    String image;
+    String caption;
+    List<dynamic> hashtags;
+    List<dynamic> likes;
+    List<dynamic> savedBy;
+    List<dynamic> comments;
+    DateTime createdAt;
+    DateTime updatedAt;
+    int v;
+
+    factory Post.fromJson(Map<String, dynamic> json) => Post(
+        id: json["_id"],
+        userId: json["userId"],
+        image: json["image"],
+        caption: json["caption"],
+        hashtags: List<dynamic>.from(json["hashtags"].map((x) => x)),
+        likes: List<dynamic>.from(json["likes"].map((x) => x)),
+        savedBy: List<dynamic>.from(json["savedBy"].map((x) => x)),
+        comments: List<dynamic>.from(json["comments"].map((x) => x)),
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        v: json["__v"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "_id": id,
+        "userId": userId,
+        "image": image,
+        "caption": caption,
+        "hashtags": List<dynamic>.from(hashtags.map((x) => x)),
+        "likes": List<dynamic>.from(likes.map((x) => x)),
+        "savedBy": List<dynamic>.from(savedBy.map((x) => x)),
+        "comments": List<dynamic>.from(comments.map((x) => x)),
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "__v": v,

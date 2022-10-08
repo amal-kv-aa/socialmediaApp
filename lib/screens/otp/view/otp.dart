@@ -11,8 +11,8 @@ import 'package:social_media/screens/sign_up/provider/sign_up_provider.dart';
 import 'package:social_media/widgets/text_custom/text.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({Key? key ,required this. user}) : super(key: key);
- final User? user;
+  const OtpScreen({Key? key, required this.user}) : super(key: key);
+  final User? user;
   @override
   State<OtpScreen> createState() => _OtpScreenState();
 }
@@ -40,7 +40,7 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-     final read = context.read<OtpProvider>();
+    final read = context.read<OtpProvider>();
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -112,9 +112,7 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                   onCompleted: (v) {
                     debugPrint("Completed");
                   },
-                  onTap: () {
-
-                  },
+                  onTap: () {},
                   onChanged: (value) {
                     debugPrint(value);
                   },
@@ -132,9 +130,10 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
                         text: 'resend OTP',
                         style: const TextStyle(
                             color: Colors.blue, fontWeight: FontWeight.bold),
-                        recognizer: TapGestureRecognizer()..onTap = () {
-                          context.read<SignUpProvider>().signup(context);
-                        }),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            context.read<SignUpProvider>().signup(context);
+                          }),
                   ),
                   SizedBox(
                     width: 30.w,
@@ -146,7 +145,7 @@ class _OtpScreenState extends State<OtpScreen> with TickerProviderStateMixin {
               ),
               ElevatedButton(
                   onPressed: () {
-                    read.otpverify(context,widget.user!);
+                    read.otpverify(context, widget.user!);
                     read.showLoding(context: context);
                   },
                   child: const Text('submit'))

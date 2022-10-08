@@ -13,15 +13,20 @@ class OtpProvider with ChangeNotifier {
     showDialog(
         context: context,
         builder: (context){
-          return AlertDialog(
-            content: Lottie.asset(
-              'assets/animation/91842-success.json',
-              height: 150.h,
-              controller: animcontroller,
-              onLoaded: (composition) {
-                animcontroller.forward();
-                animcontroller.duration = composition.duration;
+          return WillPopScope(
+              onWillPop: () async {
+                return false;
               },
+            child: AlertDialog(
+              content: Lottie.asset(
+                'assets/animation/91842-success.json',
+                height: 150.h,
+                controller: animcontroller,
+                onLoaded: (composition) {
+                  animcontroller.forward();
+                  animcontroller.duration = composition.duration;
+                },
+              ),
             ),
           );
         });
@@ -31,18 +36,23 @@ class OtpProvider with ChangeNotifier {
         barrierDismissible: false,
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Column(
-              children: [
-                const Text(
-                  "checking OTP pleas wait",
-                  style: TextStyle(color: Colors.black),
-                ),
-                SizedBox(
-                  height: 25.h,
-                ),
-                const CircularProgressIndicator()
-              ],
+          return WillPopScope(
+              onWillPop: () async {
+                return false;
+              },
+            child: AlertDialog(
+              title: Column(
+                children: [
+                  const Text(
+                    "checking OTP pleas wait",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  SizedBox(
+                    height: 25.h,
+                  ),
+                  const CircularProgressIndicator()
+                ],
+              ),
             ),
           );
         });
@@ -52,22 +62,27 @@ class OtpProvider with ChangeNotifier {
         barrierDismissible: false,
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: const Center(
-              child: Text(
-                "Invalid OTP",
-                style: TextStyle(color: Colors.red),
+          return WillPopScope(
+              onWillPop: () async {
+                return false;
+              },
+            child: AlertDialog(
+              title: const Center(
+                child: Text(
+                  "Invalid OTP",
+                  style: TextStyle(color: Colors.red),
+                ),
               ),
+              content: const Icon(Icons.error_rounded),
+              actions: [
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                    child: const Text("back"))
+              ],
             ),
-            content: const Icon(Icons.error_rounded),
-            actions: [
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  },
-                  child: const Text("back"))
-            ],
           );
         });
   }
@@ -77,6 +92,8 @@ class OtpProvider with ChangeNotifier {
             if (value == "success") {
           showanimation(context);
         } else {
+          otpController.clear();
+          notifyListeners();
               CustomSnackbar.showSnack(
           context: context, text: value);
            showError(context);

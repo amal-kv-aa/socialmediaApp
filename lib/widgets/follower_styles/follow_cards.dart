@@ -5,7 +5,7 @@ import 'package:social_media/utils/responsive/responsive_design/responsivestyle.
 
 class FollowerCards extends StatelessWidget {
   const FollowerCards({Key? key,required this.data}) : super(key: key);
-  final OtherDetails? data; 
+  final UserDetails? data; 
   @override
   Widget build(BuildContext context) {
     final mob = ResponsiveStyle.isMobile(context);
@@ -44,13 +44,13 @@ class FollowerCards extends StatelessWidget {
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text('Posts',
+            children:  [
+              const Text('Posts',
                   style: TextStyle(
                     color: Colors.white,
                   )),
-              Text('0',
-                  style: TextStyle(
+              Text(data?.posts.length.toString() ?? '0',
+                  style: const TextStyle(
                     color: Colors.white,
                   ))
             ],
@@ -75,7 +75,7 @@ class FollowerCards extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.white,
                     )),
-                Text(data?.followers.length.toString() ?? '2',
+                Text(data?.followers.length.toString() ?? 'null',
                     style: const TextStyle(
                       color: Colors.white,
                     ))

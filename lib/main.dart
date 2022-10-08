@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:social_media/screens/desktop/provider/provider.dart';
 import 'package:social_media/screens/google_signup/provider/google.provider.dart';
+import 'package:social_media/screens/home/provider/home_provider.dart';
 import 'package:social_media/screens/lobi/provider/loby_provider.dart';
 import 'package:social_media/screens/login/provider/login_provider.dart';
 import 'package:social_media/screens/newpost/provider/newpost_provider.dart';
@@ -28,7 +29,8 @@ void main() {
       ChangeNotifierProvider(create: (_) =>OtpProvider()),
       ChangeNotifierProvider(create: (_) =>GooleSignupProvider()),
       ChangeNotifierProvider(create: (_) =>ProfileProvider()),
-      ChangeNotifierProvider(create: (_)=>NewpostProvider())
+      ChangeNotifierProvider(create: (_)=>NewpostProvider()),
+      ChangeNotifierProvider(create: (_)=> HomeProvider())
     ],
     child: const MyApp(),
   ));

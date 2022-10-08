@@ -15,11 +15,17 @@ class ProfileOuter extends StatelessWidget {
         color: Colors.black,
         border: Border.all(width: 2, color: Colors.black),
         borderRadius: BorderRadius.circular(60),
-        image: DecorationImage(
+        image:image != null ? DecorationImage(
             image:
-                NetworkImage(image ?? 'assets/images/avatar-1-1536x1536.jpeg'),
+                 NetworkImage(image!)  ,
             fit: BoxFit.cover,
-            filterQuality: FilterQuality.high),
+            filterQuality: FilterQuality.high)
+            :
+             const DecorationImage(
+            image:
+                 AssetImage("assets/images/avatar-1-1536x1536.jpeg")  ,
+            fit: BoxFit.cover,
+            filterQuality: FilterQuality.high)
       ),
     );
   }

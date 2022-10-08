@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -26,15 +25,13 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
-    tabController.addListener(() {
-      log('called');
-    });
+    tabController.addListener(() {});
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final watch =  context.watch<ProfileProvider>();
+    final watch = context.watch<ProfileProvider>();
     final mob = ResponsiveStyle.isMobile(context);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -60,15 +57,11 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                             value: 2,
                             onTap: () {
                               HelperFunction().deleteAccestoken().then((value) {
-                                   context.read<GooleSignupProvider>().logout();
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        const Login(),
-                                  ),
-                                  (route) => true,
-                                );
+                                context.read<GooleSignupProvider>().logout();
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (ctx) => const Login()));
                               });
                             },
                             child: Row(
@@ -95,9 +88,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                           EdgeInsets.symmetric(horizontal: mob ? 10.w : 15),
                       child: Row(
                         children: [
-                           ProfileOuter(
-                            image:watch.userData?.otherDetails.avatar ??
-                                'https://images.unsplash.com/photo-1497316730643-415fac54a2af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
+                          ProfileOuter(
+                            image: watch.userData?.avatar,
                           ),
                           SizedBox(width: mob ? 10.w : 20.w),
                           SizedBox(
@@ -106,23 +98,17 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                 CustomText(
-                                  text:watch.userData?.otherDetails.fullname ?? 'unKnown',
+                                CustomText(
+                                  text: watch.userData?.fullname ?? 'unKnown',
                                   weight: FontWeight.bold,
                                   size: 20,
                                 ),
-                                Container(
-                                  height: 30.h,
-                                  width: mob ? 220.w : 60.w,
-                                  color:
-                                      const Color.fromARGB(255, 168, 168, 168),
-                                  child: const Center(
-                                      child: CustomText(
-                                    text: 'Edit Profile',
-                                    size: 14,
-                                    weight: FontWeight.bold,
-                                  )),
-                                ),
+                                Center(
+                                    child: CustomText(
+                                  text: watch.userData?.bio ?? "..",
+                                  size: 14,
+                                  weight: FontWeight.bold,
+                                )),
                               ],
                             ),
                           ),
@@ -133,12 +119,16 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                       height: 10.h,
                     ),
                     SizedBox(
+                      width: double.infinity,
+                      child: Container(
                         width: double.infinity,
-                        child: Container(
-                            width: double.infinity,
-                            height: 90.h,
-                            color: Colors.transparent,
-                            child:  FollowerCards(data: watch.userData?.otherDetails,))),
+                        height: 90.h,
+                        color: Colors.transparent,
+                        child: FollowerCards(
+                          data: watch.userData,
+                        ),
+                      ),
+                    ),
                     SizedBox(
                       height: 10.h,
                     ),
@@ -177,15 +167,15 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
             SliverToBoxAdapter(
                 child: Container(
               color: Colors.white,
-              height: context.watch<ProfileProvider>().tabbarheight ?? 0,
-              child: TabBarView(controller: tabController, children:  [
+              height: watch.tabbarheight ?? 0,
+              child: TabBarView(controller: tabController, children: [
                 PostsGridView(
-                  post: watch.userData?.currentUserPosts,
-                  length: 30,
+                  postData: context.watch<ProfileProvider>().userData,
+                  length: 20,
                 ),
                 PostsGridView(
-                  post: watch.userData?.currentUserPosts,
-                  length: 31,
+                  postData: context.watch<ProfileProvider>().userData,
+                  length: 20,
                 )
               ]),
             ))
