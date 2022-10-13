@@ -63,8 +63,8 @@ class ProfileServices extends ApiEndPoints {
           await dio.put("${baseUrl}user/follow/$userid",data: {"userId" : CurrentUser.userId} );
       if (response.statusCode! >= 200 && response.statusCode! <= 299) {
         
-      log("success111sss");
-        return done;
+      log("success");
+        return response.data["message"];
       }
     } on DioError catch (e) {
       if (e.message.startsWith("SocketException")) {

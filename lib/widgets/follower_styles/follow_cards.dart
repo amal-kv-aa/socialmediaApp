@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:social_media/screens/profile/models/usermodel.dart';
 import 'package:social_media/utils/responsive/responsive_design/responsivestyle.dart';
 
 class FollowerCards extends StatelessWidget {
   const FollowerCards({Key? key,required this.data}) : super(key: key);
-  final UserDetails? data; 
+  final dynamic data; 
   @override
   Widget build(BuildContext context) {
     final mob = ResponsiveStyle.isMobile(context);

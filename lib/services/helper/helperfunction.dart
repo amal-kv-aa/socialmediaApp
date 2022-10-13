@@ -23,7 +23,6 @@ class HelperFunction {
   }
 
   String userkey = 'userId';
-
   //==========to=store==UseerId========//
   Future setuserId(String userId) async {
     SharedPreferences userdata = await SharedPreferences.getInstance();

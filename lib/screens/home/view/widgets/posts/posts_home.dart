@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +35,7 @@ class HomePosts extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+
                     Row(
                       children: [
                         CircleAvatar(
@@ -60,23 +63,11 @@ class HomePosts extends StatelessWidget {
                           size: 26.h,
                         ),
                         itemBuilder: (context) => [
-                              const PopupMenuItem(
-                                value: 1,
-                                child: Text("Account settings"),
-                              ),
-                              PopupMenuItem(
-                                value: 2,
-                                onTap: () {},
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: const [
-                                    Text("Delete post"),
-                                    Icon(Icons.logout_rounded,
-                                        color: Colors.black)
-                                  ],
-                                ),
-                              )
+                             PopupMenuItem(child: const Text("Unfollow"),
+                            onTap: (){
+                              context.read<HomeProvider>().toFollowandUnollow(context, "6342c2831631308b02a704d2");
+                            }
+                            )
                             ])
                   ],
                 ),
@@ -87,7 +78,7 @@ class HomePosts extends StatelessWidget {
                 resetDuration: const Duration(milliseconds: 100),
                 maxScale: 2.5,
                 child: FadeInImage(
-                    placeholder: NetworkImage(userDetails?.image ?? ""),
+                    placeholder: const AssetImage("assets/images/fade.jpg"),
                     image: NetworkImage(userDetails?.image ?? "")),
               ),
             ),
@@ -116,7 +107,8 @@ class HomePosts extends StatelessWidget {
                                 ),
                                 IconButton(
                                     onPressed: () {
-                                      value.toLike(postdata!.id, context,
+                                      log("hey....${userDetails!.id}");
+                                      value.toLike(userDetails!.id, context,
                                           userDetails!.likes);
                                     },
                                     icon: value.checklike(userDetails!.likes) ==

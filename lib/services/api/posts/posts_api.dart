@@ -5,6 +5,7 @@ import 'package:social_media/screens/home/model/postmodel/post_model.dart';
 import 'package:social_media/screens/profile/models/usermodel.dart';
 import 'package:social_media/services/api_endpoins/api_endoints.dart';
 import 'package:social_media/services/helper/helperfunction.dart';
+import 'package:social_media/utils/user/current_user.dart';
 
 class PostapiServices extends ApiEndPoints {
   Dio dio = Dio();
@@ -39,15 +40,15 @@ class PostapiServices extends ApiEndPoints {
 
   Future<List<PostModel>?> getPostdatas() async {
     final userId = await HelperFunction().getuserId();
+    log("current user : $userId");
     try {
       dio.options.headers["authtoken"] = await HelperFunction().getAccestoken();
-      var response =
-          await dio.get("${baseUrl}post/timeline/${userId.toString()}");
+      var response = 
+          await dio.get("${baseUrl}post/timeline/$userId");
       if (response.statusCode! >= 200 && response.statusCode! < 300) {
+
         final data = getPostModelFromJson(response.data);
-
-        log(data[0].id.toString());
-
+        log("data : ${response.data.toString()}");
         return data;
       }
     } catch (e) {
@@ -63,12 +64,12 @@ class PostapiServices extends ApiEndPoints {
 
 //=============================like============================//
 
-  Future<String>? likeposts(postid) async {
+  Future<String>? likeposts(String postid) async {
     try {
-      final userId = await HelperFunction().getuserId();
+     log("post : $postid");
       dio.options.headers["authtoken"] = await HelperFunction().getAccestoken();
       var response = await dio
-          .put("${baseUrl}post/like/$postid", data: {"userId": userId});
+          .put("${baseUrl}post/like/$postid", data: {"userId": CurrentUser.userId});
       if (response.statusCode! >= 200 && response.statusCode! < 300) {
         return done;
       }

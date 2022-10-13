@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:social_media/screens/home/provider/home_provider.dart';
-import 'package:social_media/screens/newpost/provider/newpost_provider.dart';
 import 'package:social_media/screens/profile/models/usermodel.dart';
 
 class FullView extends StatelessWidget {

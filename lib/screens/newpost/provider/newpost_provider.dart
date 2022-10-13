@@ -3,21 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:social_media/screens/home/model/postmodel/post_model.dart';
 import 'package:social_media/screens/home/provider/home_provider.dart';
 import 'package:social_media/screens/newpost/view/newpost.dart';
 import 'package:social_media/screens/profile/models/usermodel.dart';
 import 'package:social_media/screens/profile/provider/profile_provider.dart';
 import 'package:social_media/services/api/posts/posts_api.dart';
 import 'package:social_media/services/helper/helperfunction.dart';
-import 'package:social_media/utils/user/current_user.dart';
-import 'package:social_media/widgets/loading/loading.dart';
 import 'package:social_media/widgets/snackbar/snackbar.dart';
 
 class NewpostProvider with ChangeNotifier {
-
-
-
   File? imagepath;
   TextEditingController captionController = TextEditingController();
   TextEditingController tagController = TextEditingController();
@@ -59,10 +53,11 @@ class NewpostProvider with ChangeNotifier {
                         } else {
                           Navigator.pop(context);
                           return;
-                        }
-                      });
-                    },
-                    icon: Icon(Icons.image, color: Colors.black, size: 25.h))
+                      }}
+                      );
+                      },
+                    icon: Icon(Icons.image, color: Colors.black, size: 25.h)
+                )
               ],
             ),
           );

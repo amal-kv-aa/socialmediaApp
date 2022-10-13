@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_media/screens/home/model/postmodel/post_model.dart';
@@ -74,6 +76,7 @@ class HomeProvider with ChangeNotifier {
 
 //===============follow==and==Unfollow=============//
   toFollowandUnollow(BuildContext context, String userid) {
+    log(userid);
     ProfileServices().followUnfollow(userid)!.then((value) {
       if (value == "success") {
         fetchPosts();

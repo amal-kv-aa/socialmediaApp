@@ -10,7 +10,6 @@ import 'package:social_media/widgets/text_custom/text.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +68,7 @@ class Home extends StatelessWidget {
                     if (index == value.posts!.length ~/ 2) {
                       return Suggetions(
                           index: index);
-                    }
+                          }
                     return HomePosts(
                         userDetails: value.posts?[index],
                         index: index,
